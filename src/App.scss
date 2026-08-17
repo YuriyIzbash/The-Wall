@@ -182,3 +182,11 @@
     border-right-color: var(--border);
   }
 }
+
+.App {
+  text-align: left;
+
+  .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
