@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import './App.scss';
 import GraffitiMessage from './components/GraffitiMessage';
+import { getRandomGraffitiStyle } from './utils/graffitiStyles';
 
 function App() {
   // TODO: replace hardcoded data when json-server connected
-  const message = "The Wall is test.";
-  const author = "Anonymous";
-  const showAuthor = true;
+  const [message] = useState("The Wall is alive.");
+  const [author] = useState("Anonymous");
+  const [showAuthor] = useState(false);
+  const [style] = useState(getRandomGraffitiStyle);
 
   return (
     <div className="wall">
@@ -14,6 +17,7 @@ function App() {
           message={message}
           author={author}
           showAuthor={showAuthor}
+          style={style}
         />
       </div>
 

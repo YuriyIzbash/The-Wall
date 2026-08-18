@@ -8,31 +8,27 @@
   justify-content: center;
   width: 100%;
   max-width: 90%;
-  padding: 2rem;
+  padding: 2rem 2rem 2rem 2.5rem; 
   text-align: center;
+  overflow: visible;
 
   .message-text {
     font-size: clamp(1.8rem, 12vw, 6rem);
     font-weight: 900;
-    color: #fff;
-    text-shadow: 
-      2px 2px 8px rgba(0, 0, 0, 0.8),
-      0 0 40px rgba(0, 0, 0, 0.4);
-    font-family: 'Arial Black', Impact, sans-serif;
-    word-wrap: break-word;
+    margin: 0;
     line-height: 1.2;
+    word-wrap: break-word;
     max-width: 100%;
+    padding-left: 0.3em; 
   }
 
   .message-author {
     margin-top: 0.5rem;
     font-size: clamp(1rem, 3vw, 2rem);
     font-weight: 700;
-    color: rgba(255, 255, 255, 0.85);
-    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
-    font-family: 'Arial Black', Impact, sans-serif;
     text-align: right;
     width: 100%;
     padding-right: 1rem;
+    padding-left: 0.2em; 
   }
 }
