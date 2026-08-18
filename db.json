@@ -1,3 +1,17 @@
 {
-    "posts": []
+  "posts": [
+    {
+      "title": "1",
+      "content": "2",
+      "author": "3",
+      "id": "WH6pkzTC5gM"
+    },
+    {
+      "title": "4",
+      "content": "5",
+      "author": "6",
+      "id": "BgqrQgMvI7o"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
