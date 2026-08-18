@@ -1,12 +1,20 @@
 import './App.scss';
+import GraffitiMessage from './components/GraffitiMessage';
 
 function App() {
+  // TODO: replace hardcoded data when json-server connected
+  const message = "The Wall is test.";
+  const author = "Anonymous";
+  const showAuthor = true;
+
   return (
     <div className="wall">
       <div className="graffiti-area">
-        <p className="placeholder-message">
-          The Wall is alive.
-        </p>
+        <GraffitiMessage 
+          message={message}
+          author={author}
+          showAuthor={showAuthor}
+        />
       </div>
 
       <button className="overwrite-button">
