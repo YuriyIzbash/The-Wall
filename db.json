@@ -1,17 +1,16 @@
 {
-  "posts": [
-    {
-      "title": "1",
-      "content": "2",
-      "author": "3",
-      "id": "WH6pkzTC5gM"
-    },
-    {
-      "title": "4",
-      "content": "5",
-      "author": "6",
-      "id": "BgqrQgMvI7o"
+  "wall": {
+    "id": 1,
+    "message": "The Wall is alive.",
+    "author": "Anonymous",
+    "showAuthor": true,
+    "createdAt": "2026-08-19T12:00:00.000Z",
+    "graffitiStyle": {
+      "fontFamily": "A Dripping Marker, cursive",
+      "textColor": "#ff4d4d",
+      "gradient": ["#ff4d4d", "#ff9900"],
+      "shadow": "4px 4px 12px rgba(0,0,0,0.9)"
     }
-  ],
-  "$schema": "./node_modules/json-server/schema.json"
+  },
+  "graveyard": []
 }
