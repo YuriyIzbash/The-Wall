@@ -2,10 +2,11 @@ import { useState } from 'react';
 import './App.scss';
 import GraffitiMessage from './components/GraffitiMessage';
 import Modal from './components/Modal/Modal';
+import OverwriteForm from './components/OverwriteForm/OverwriteForm';
 import { getRandomGraffitiStyle } from './utils/graffitiStyles';
 
 function App() {
-    // TODO: replace hardcoded data when json-server connected
+  // TODO: replace hardcoded data when json-server connected
   const [message] = useState("The Wall is alive.");
   const [author] = useState("Anonymous");
   const [showAuthor] = useState(false);
@@ -13,6 +14,12 @@ function App() {
   
   // Modal state
   const [isOverwriteModalOpen, setIsOverwriteModalOpen] = useState(false);
+
+  const handleOverwriteSubmit = (data) => {
+    console.log('New graffiti submitted:', data);
+    // TODO: connect to json-server in a later step
+    setIsOverwriteModalOpen(false);
+  };
 
   return (
     <div className="wall">
@@ -47,8 +54,10 @@ function App() {
         onClose={() => setIsOverwriteModalOpen(false)}
         title="Create New Graffiti"
       >
-        <p style={{ color: '#aaa' }}>Overwrite form will go here.</p>
-        {/* TODO: add the form in the next step */}
+        <OverwriteForm
+          onSubmit={handleOverwriteSubmit}
+          onCancel={() => setIsOverwriteModalOpen(false)}
+        />
       </Modal>
     </div>
   );

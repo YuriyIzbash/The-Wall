@@ -1,0 +1,124 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.overwrite-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  label {
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  textarea,
+  input[type="text"] {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    padding: 0.8rem;
+    color: #fff;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .char-counter {
+    text-align: right;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 0.2rem;
+  }
+}
+
+.author-visibility {
+  .radio-group {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.2rem;
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #ddd;
+      font-size: 0.9rem;
+      cursor: pointer;
+
+      input[type="radio"] {
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        accent-color: #ff4d4d;
+      }
+    }
+  }
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+
+  button {
+    padding: 0.7rem 2rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-cancel {
+    background: rgba(255, 255, 255, 0.1);
+    color: #aaa;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+  }
+
+  .btn-submit {
+    background: #ff4d4d;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3);
+
+    &:hover:not(:disabled) {
+      transform: scale(1.02);
+      box-shadow: 0 6px 25px rgba(255, 77, 77, 0.5);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
