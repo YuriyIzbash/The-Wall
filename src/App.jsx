@@ -4,12 +4,14 @@ import GraffitiMessage from './components/GraffitiMessage';
 import Modal from './components/Modal/Modal';
 import OverwriteForm from './components/OverwriteForm/OverwriteForm';
 import { getRandomGraffitiStyle } from './utils/graffitiStyles';
+import Graveyard from './components/Graveyard/Graveyard';
 
 function App() {
   const [wallData, setWallData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isOverwriteModalOpen, setIsOverwriteModalOpen] = useState(false);
+  const [isGraveyardModalOpen, setIsGraveyardModalOpen] = useState(false);
 
   // Fetch wall on mount
   useEffect(() => {
@@ -113,7 +115,7 @@ function App() {
       <nav className="bottom-nav">
         <span>Hall of Fame</span>
         <span>Message of the Week</span>
-        <span>Graveyard</span>
+        <span onClick={() => setIsGraveyardModalOpen(true)}>Graveyard</span>
         <span>Rules</span>
         <span>Privacy</span>
         <span>Terms</span>
@@ -128,6 +130,14 @@ function App() {
           onSubmit={handleOverwriteSubmit}
           onCancel={() => setIsOverwriteModalOpen(false)}
         />
+      </Modal>
+
+      <Modal
+        isOpen={isGraveyardModalOpen}
+        onClose={() => setIsGraveyardModalOpen(false)}
+        title="Graveyard"
+      >
+        <Graveyard />
       </Modal>
     </div>
   );

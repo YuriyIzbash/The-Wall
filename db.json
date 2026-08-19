@@ -1,16 +1,16 @@
 {
   "wall": {
     "id": 1,
-    "message": "asdasd",
-    "author": "asdd",
+    "message": "asdad",
+    "author": "asd",
     "showAuthor": false,
-    "createdAt": "2026-08-19T20:47:17.347Z",
+    "createdAt": "2026-08-19T21:20:56.033Z",
     "graffitiStyle": {
       "fontFamily": "Jraot Hollow, sans-serif",
-      "textColor": "#66ff66",
+      "textColor": "#ffcc00",
       "gradient": [
-        "#ff3399",
-        "#ff6600"
+        "#ff4d4d",
+        "#ff3399"
       ],
       "shadow": "4px 4px 12px rgba(0,0,0,0.4), 0 0 10px rgba(0,0,0,0.1)"
     }
@@ -175,6 +175,94 @@
       "showAuthor": false,
       "createdAt": "2026-08-19T20:45:16.337Z",
       "destroyedAt": "2026-08-19T20:47:17.347Z"
+    },
+    {
+      "id": "7jTLw_Ixgqg",
+      "message": "asdasd",
+      "author": "asdd",
+      "showAuthor": false,
+      "createdAt": "2026-08-19T20:47:17.347Z",
+      "destroyedAt": "2026-08-19T21:01:48.541Z"
+    },
+    {
+      "id": "fmrchHvuFfc",
+      "message": "asdasd",
+      "author": "asdsad",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T21:01:48.541Z",
+      "destroyedAt": "2026-08-19T21:01:57.419Z"
+    },
+    {
+      "id": "sfEkLytHBeM",
+      "message": "asdasda",
+      "author": "asdasd",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T21:01:57.419Z",
+      "destroyedAt": "2026-08-19T21:02:05.825Z"
+    },
+    {
+      "id": "DHP19-nPGBs",
+      "message": "asdasd",
+      "author": "asdad",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T21:02:05.825Z",
+      "destroyedAt": "2026-08-19T21:02:13.823Z"
+    },
+    {
+      "id": "TqMkr9OmmEE",
+      "message": "asdasdasd",
+      "author": "asdasd",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T21:02:13.823Z",
+      "destroyedAt": "2026-08-19T21:02:17.823Z"
+    },
+    {
+      "id": "Qd3H-OtyA64",
+      "message": "asd",
+      "author": "asd",
+      "showAuthor": false,
+      "createdAt": "2026-08-19T21:02:17.823Z",
+      "destroyedAt": "2026-08-19T21:02:45.091Z"
+    },
+    {
+      "id": "3j2SKDCpW2c",
+      "message": "asdasd",
+      "author": "asdasd",
+      "showAuthor": false,
+      "createdAt": "2026-08-19T21:02:45.091Z",
+      "destroyedAt": "2026-08-19T21:03:37.551Z"
+    },
+    {
+      "id": "RDopdrFyPvU",
+      "message": "dasd",
+      "author": "asdasd",
+      "showAuthor": false,
+      "createdAt": "2026-08-19T21:03:37.551Z",
+      "destroyedAt": "2026-08-19T21:03:41.474Z"
+    },
+    {
+      "id": "Oq1fGJAJEFY",
+      "message": "asdasda",
+      "author": "adas",
+      "showAuthor": false,
+      "createdAt": "2026-08-19T21:03:41.474Z",
+      "destroyedAt": "2026-08-19T21:11:13.162Z"
+    },
+    {
+      "id": "QOfO8W8l5W8",
+      "message": "asdasdad",
+      "author": "das",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T21:11:13.162Z",
+      "destroyedAt": "2026-08-19T21:20:26.216Z"
+    },
+    {
+      "id": "JMbC-6jQT1M",
+      "message": "1111",
+      "author": "2",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T21:20:26.216Z",
+      "destroyedAt": "2026-08-19T21:20:56.033Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

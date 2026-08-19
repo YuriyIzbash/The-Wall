@@ -1,0 +1,77 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.graveyard {
+  width: 100%;
+  color: #ff0000;
+  font-size: 0.9rem;
+
+  .empty {
+    text-align: center;
+    color: #888;
+    padding: 2rem 0;
+  }
+
+  .graveyard-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+
+    th, td {
+      padding: 0.6rem 0.4rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    th {
+      color: #ff0000;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+    }
+
+    td {
+      word-break: break-word;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+    button {
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: #ff0000;
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: background 0.3s;
+
+      &:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      &:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+    }
+
+    span {
+      color: #ff0000;
+      font-size: 0.85rem;
+    }
+  }
+}
