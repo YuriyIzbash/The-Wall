@@ -1,6 +1,6 @@
 import './GraffitiMessage.scss';
 
-function GraffitiMessage({ message, author, showAuthor, style = {} }) {
+function GraffitiMessage({ message, author, showAuthor, style }) {
   if (!message) return null;
 
   const {
@@ -8,7 +8,7 @@ function GraffitiMessage({ message, author, showAuthor, style = {} }) {
     textColor = '#ffffff',
     gradient = null,
     shadow = '2px 2px 8px rgba(0,0,0,0.8)',
-  } = style;
+  } = style || {};
 
   const baseTextStyle = {
     fontFamily: fontFamily,
@@ -34,9 +34,9 @@ function GraffitiMessage({ message, author, showAuthor, style = {} }) {
   };
 
   const containerStyle = {};
-  if (gradient) {
-    containerStyle.filter = `drop-shadow(0 0 10px rgba(0,0,0,0.9)) drop-shadow(0 0 30px rgba(0,0,0,0.4))`;
-  }
+    if (gradient) {
+      containerStyle.filter = `drop-shadow(0 0 6px rgba(0,0,0,0.8)) drop-shadow(0 0 20px rgba(0,0,0,0.3))`;
+    }
 
   return (
     <div className="graffiti-message" style={containerStyle}>

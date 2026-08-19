@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import './OverwriteForm.scss';
+import { getRandomGraffitiStyle } from '../../utils/graffitiStyles';
 
 function OverwriteForm({ onSubmit, onCancel }) {
   const [message, setMessage] = useState('');
   const [author, setAuthor] = useState('');
   const [showAuthor, setShowAuthor] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [randomStyle] = useState(() => getRandomGraffitiStyle());
 
-  const MAX_MESSAGE_LENGTH = 300;
-  const MAX_AUTHOR_LENGTH = 100;
+  const MAX_MESSAGE_LENGTH = 100;
+  const MAX_AUTHOR_LENGTH = 50;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,6 +37,7 @@ function OverwriteForm({ onSubmit, onCancel }) {
       message: message.trim(),
       author: author.trim() || 'Anonymous',
       showAuthor: showAuthor,
+      style: randomStyle,
     });
 
     // Reset form

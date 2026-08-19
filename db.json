@@ -1,16 +1,181 @@
 {
   "wall": {
     "id": 1,
-    "message": "The Wall is alive.",
-    "author": "Anonymous",
-    "showAuthor": true,
-    "createdAt": "2026-08-19T12:00:00.000Z",
+    "message": "asdasd",
+    "author": "asdd",
+    "showAuthor": false,
+    "createdAt": "2026-08-19T20:47:17.347Z",
     "graffitiStyle": {
-      "fontFamily": "A Dripping Marker, cursive",
-      "textColor": "#ff4d4d",
-      "gradient": ["#ff4d4d", "#ff9900"],
-      "shadow": "4px 4px 12px rgba(0,0,0,0.9)"
+      "fontFamily": "Jraot Hollow, sans-serif",
+      "textColor": "#66ff66",
+      "gradient": [
+        "#ff3399",
+        "#ff6600"
+      ],
+      "shadow": "4px 4px 12px rgba(0,0,0,0.4), 0 0 10px rgba(0,0,0,0.1)"
     }
   },
-  "graveyard": []
+  "graveyard": [
+    {
+      "id": "XuhrfO7AWF4",
+      "message": "The Wall is alive.",
+      "author": "Anonymous",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T12:00:00.000Z",
+      "destroyedAt": "2026-08-19T20:19:39.888Z"
+    },
+    {
+      "id": "wk3YzKu6EpA",
+      "message": "aaaaa",
+      "author": "ccc",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T20:19:39.889Z",
+      "destroyedAt": "2026-08-19T20:25:31.287Z"
+    },
+    {
+      "id": "0ImtYn3svrg",
+      "message": "bbbb",
+      "author": "www",
+      "showAuthor": false,
+      "createdAt": "2026-08-19T20:25:31.287Z",
+      "destroyedAt": "2026-08-19T20:25:40.603Z"
+    },
+    {
+      "id": "Iie4ihBS46Y",
+      "message": "asadasdasd",
+      "author": "a",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T20:25:40.603Z",
+      "destroyedAt": "2026-08-19T20:26:08.354Z"
+    },
+    {
+      "id": "CVijySBefe0",
+      "message": "qwe123 asda1asda asdsadfasdasdasdasdsadasdasda asdas d aasd asd asd asd dsada sd asdadasd asdsa dasd",
+      "author": "1231123123112. asdad asd as d asd as dasdasdasdsad",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T20:26:08.354Z",
+      "destroyedAt": "2026-08-19T20:26:18.468Z"
+    },
+    {
+      "id": "FfG5Zjv74ek",
+      "message": "asdasd",
+      "author": "asd",
+      "showAuthor": false,
+      "createdAt": "2026-08-19T20:26:18.468Z",
+      "destroyedAt": "2026-08-19T20:31:44.631Z"
+    },
+    {
+      "id": "323LwIv-iw0",
+      "message": "fffffff fffffffasda",
+      "author": "1",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T20:31:44.631Z",
+      "destroyedAt": "2026-08-19T20:31:53.279Z"
+    },
+    {
+      "id": "dC0PgcFCv2M",
+      "message": "asdasdasdsadasd",
+      "author": "asdas",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T20:31:53.279Z",
+      "destroyedAt": "2026-08-19T20:32:02.563Z"
+    },
+    {
+      "id": "9NVHdEIBIPk",
+      "message": "asdasdasda",
+      "author": "sdasd",
+      "showAuthor": false,
+      "createdAt": "2026-08-19T20:32:02.563Z",
+      "destroyedAt": "2026-08-19T20:38:58.173Z"
+    },
+    {
+      "id": "Oc7X4pkZgSI",
+      "message": "asdfsa fa sdf a sfa sf as f",
+      "author": "asdfa",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T20:38:58.173Z",
+      "destroyedAt": "2026-08-19T20:41:56.321Z"
+    },
+    {
+      "id": "zPOHwP84lsw",
+      "message": "asdfsafd asdf asf",
+      "author": "asasdf",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T20:41:56.321Z",
+      "destroyedAt": "2026-08-19T20:42:03.852Z"
+    },
+    {
+      "id": "5-8a-h5i5LU",
+      "message": "sdakl;gfmasdlkgmlkdfasg sdfgkflsdgkmsd",
+      "author": "sdfg",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T20:42:03.852Z",
+      "destroyedAt": "2026-08-19T20:42:12.538Z"
+    },
+    {
+      "id": "xfX5OBSvNbw",
+      "message": "asdfasdfasdf",
+      "author": "asd",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T20:42:12.538Z",
+      "destroyedAt": "2026-08-19T20:44:26.086Z"
+    },
+    {
+      "id": "Y-UEdF77D38",
+      "message": "dfsgsdfgds",
+      "author": "sdgs",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T20:44:26.086Z",
+      "destroyedAt": "2026-08-19T20:44:32.053Z"
+    },
+    {
+      "id": "iOHs0QVoQN4",
+      "message": "sdfgdfsgsgsgs",
+      "author": "sdgsd",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T20:44:32.053Z",
+      "destroyedAt": "2026-08-19T20:44:40.611Z"
+    },
+    {
+      "id": "ULH9BpJHqks",
+      "message": "asdf sf as f as dfa sdf as df asd f adsf asd",
+      "author": "asdfasdfas fasdf a",
+      "showAuthor": false,
+      "createdAt": "2026-08-19T20:44:40.611Z",
+      "destroyedAt": "2026-08-19T20:44:48.494Z"
+    },
+    {
+      "id": "2AXPRdbLm94",
+      "message": "asdfdsfklasdfmkas asdfasdfasdf",
+      "author": "12312",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T20:44:48.494Z",
+      "destroyedAt": "2026-08-19T20:44:58.245Z"
+    },
+    {
+      "id": "C0jxrJmCsDk",
+      "message": "asdfasd fsadf sd f as. as",
+      "author": "asdfasdfas",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T20:44:58.245Z",
+      "destroyedAt": "2026-08-19T20:45:07.395Z"
+    },
+    {
+      "id": "vMotcHrg3CI",
+      "message": "11111",
+      "author": "2222",
+      "showAuthor": true,
+      "createdAt": "2026-08-19T20:45:07.395Z",
+      "destroyedAt": "2026-08-19T20:45:16.337Z"
+    },
+    {
+      "id": "YJeOFhrmdjA",
+      "message": "adsasdasd",
+      "author": "as",
+      "showAuthor": false,
+      "createdAt": "2026-08-19T20:45:16.337Z",
+      "destroyedAt": "2026-08-19T20:47:17.347Z"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
