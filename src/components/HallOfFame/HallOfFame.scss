@@ -1,0 +1,50 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.hall-of-fame {
+  color: #ddd;
+  width: 100%;
+
+  .empty {
+    text-align: center;
+    color: #888;
+    padding: 2rem 0;
+  }
+
+  .ranking {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    .ranking-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.6rem 0.4rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.9rem;
+
+      .rank {
+        font-weight: 700;
+        color: #ff4d4d;
+        min-width: 2rem;
+      }
+      .message {
+        flex: 1;
+        word-break: break-word;
+      }
+      .author {
+        color: #aaa;
+        font-size: 0.8rem;
+        min-width: 80px;
+        text-align: right;
+      }
+      .duration {
+        font-size: 0.75rem;
+        color: #888;
+        min-width: 60px;
+        text-align: right;
+      }
+    }
+  }
+}

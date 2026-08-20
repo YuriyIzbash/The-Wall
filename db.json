@@ -1,16 +1,16 @@
 {
   "wall": {
     "id": 1,
-    "message": "asdad",
-    "author": "asd",
-    "showAuthor": false,
-    "createdAt": "2026-08-19T21:20:56.033Z",
+    "message": "Test 1",
+    "author": "test 2",
+    "showAuthor": true,
+    "createdAt": "2026-08-20T16:16:30.622Z",
     "graffitiStyle": {
-      "fontFamily": "Jraot Hollow, sans-serif",
-      "textColor": "#ffcc00",
+      "fontFamily": "Docallisme on Street, cursive",
+      "textColor": "#66ff66",
       "gradient": [
-        "#ff4d4d",
-        "#ff3399"
+        "#66ccff",
+        "#ff66ff"
       ],
       "shadow": "4px 4px 12px rgba(0,0,0,0.4), 0 0 10px rgba(0,0,0,0.1)"
     }
@@ -263,6 +263,14 @@
       "showAuthor": true,
       "createdAt": "2026-08-19T21:20:26.216Z",
       "destroyedAt": "2026-08-19T21:20:56.033Z"
+    },
+    {
+      "id": "dGYvKOA9inw",
+      "message": "asdad",
+      "author": "asd",
+      "showAuthor": false,
+      "createdAt": "2026-08-19T21:20:56.033Z",
+      "destroyedAt": "2026-08-20T16:16:30.622Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

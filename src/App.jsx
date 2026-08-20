@@ -5,6 +5,9 @@ import Modal from './components/Modal/Modal';
 import OverwriteForm from './components/OverwriteForm/OverwriteForm';
 import { getRandomGraffitiStyle } from './utils/graffitiStyles';
 import Graveyard from './components/Graveyard/Graveyard';
+import HallOfFame from './components/HallOfFame/HallOfFame';
+import MessageOfTheWeek from './components/MessageOfTheWeek/MessageOfTheWeek';
+import InfoModal from './components/InfoModal/InfoModal';
 
 function App() {
   const [wallData, setWallData] = useState(null);
@@ -12,6 +15,11 @@ function App() {
   const [error, setError] = useState(null);
   const [isOverwriteModalOpen, setIsOverwriteModalOpen] = useState(false);
   const [isGraveyardModalOpen, setIsGraveyardModalOpen] = useState(false);
+  const [isHallOfFameOpen, setIsHallOfFameOpen] = useState(false);
+  const [isMessageOfWeekOpen, setIsMessageOfWeekOpen] = useState(false);
+  const [isRulesOpen, setIsRulesOpen] = useState(false);
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
 
   // Fetch wall on mount
   useEffect(() => {
@@ -76,9 +84,7 @@ function App() {
         return Promise.all([graveyardRes.json(), wallRes.json()]);
       })
       .then(([_, updatedWall]) => {
-        console.log('Updated wall from API:', updatedWall);
         const finalWall = updatedWall.graffitiStyle ? updatedWall : newWall;
-        console.log('Final wall used:', finalWall);
         setWallData(finalWall);
         setIsOverwriteModalOpen(false);
       })
@@ -88,7 +94,6 @@ function App() {
       });
   };
 
-  // Loading / error states
   if (loading) return <div className="loading-screen">Loading Wall...</div>;
   if (error) return <div className="error-screen">Error: {error}</div>;
   if (!wallData) return null;
@@ -97,7 +102,7 @@ function App() {
     <div className="wall">
       <div className="graffiti-area">
         <GraffitiMessage
-          key={wallData.id + wallData.message} 
+          key={wallData.id + wallData.message}
           message={wallData.message}
           author={wallData.author}
           showAuthor={wallData.showAuthor}
@@ -113,14 +118,15 @@ function App() {
       </button>
 
       <nav className="bottom-nav">
-        <span>Hall of Fame</span>
-        <span>Message of the Week</span>
+        <span onClick={() => setIsHallOfFameOpen(true)}>Hall of Fame</span>
+        <span onClick={() => setIsMessageOfWeekOpen(true)}>Message of the Week</span>
         <span onClick={() => setIsGraveyardModalOpen(true)}>Graveyard</span>
-        <span>Rules</span>
-        <span>Privacy</span>
-        <span>Terms</span>
+        <span onClick={() => setIsRulesOpen(true)}>Rules</span>
+        <span onClick={() => setIsPrivacyOpen(true)}>Privacy</span>
+        <span onClick={() => setIsTermsOpen(true)}>Terms</span>
       </nav>
 
+      {/* Overwrite Modal */}
       <Modal
         isOpen={isOverwriteModalOpen}
         onClose={() => setIsOverwriteModalOpen(false)}
@@ -132,12 +138,156 @@ function App() {
         />
       </Modal>
 
+      {/* Graveyard Modal */}
       <Modal
         isOpen={isGraveyardModalOpen}
         onClose={() => setIsGraveyardModalOpen(false)}
         title="Graveyard"
       >
         <Graveyard />
+      </Modal>
+
+      {/* Hall of Fame Modal */}
+      <Modal
+        isOpen={isHallOfFameOpen}
+        onClose={() => setIsHallOfFameOpen(false)}
+        title="Hall of Fame"
+      >
+        <HallOfFame />
+      </Modal>
+
+      {/* Message of the Week Modal */}
+      <Modal
+        isOpen={isMessageOfWeekOpen}
+        onClose={() => setIsMessageOfWeekOpen(false)}
+        title="Message of the Week"
+      >
+        <MessageOfTheWeek />
+      </Modal>
+
+      {/* Rules Modal */}
+      <Modal
+        isOpen={isRulesOpen}
+        onClose={() => setIsRulesOpen(false)}
+        title="Rules & Contemporary Art Statement"
+      >
+        <InfoModal
+          title="Rules & Art Statement"
+          content={
+            <>
+              <p>
+                <strong>The Wall</strong> is a digital contemporary art installation.
+                It represents a permanent concrete wall where visitors leave temporary
+                graffiti messages.
+              </p>
+              <p>
+                By posting, you agree that:
+              </p>
+              <ul>
+                <li>Your message is temporary and will be overwritten.</li>
+                <li>
+                  Content must not be illegal, offensive, or harmful.
+                </li>
+                <li>
+                  The platform reserves the right to remove any content
+                  without notice.
+                </li>
+                <li>
+                  Messages do not represent the views of the platform.
+                </li>
+              </ul>
+              <p>
+                This is an artwork – treat it with respect.
+              </p>
+            </>
+          }
+        />
+      </Modal>
+
+      {/* Privacy Modal */}
+      <Modal
+        isOpen={isPrivacyOpen}
+        onClose={() => setIsPrivacyOpen(false)}
+        title="Privacy Policy"
+      >
+        <InfoModal
+          title="Privacy Policy"
+          content={
+            <>
+              <p>
+                We collect minimal data to operate The Wall:
+              </p>
+              <ul>
+                <li>
+                  <strong>Messages</strong> – stored in the database and
+                  graveyard.
+                </li>
+                <li>
+                  <strong>Author names</strong> – optional, visible only if
+                  you choose to display them.
+                </li>
+                <li>
+                  <strong>Timestamps</strong> – when you create or overwrite
+                  a message.
+                </li>
+              </ul>
+              <p>
+                We do <strong>not</strong> collect:
+              </p>
+              <ul>
+                <li>IP addresses</li>
+                <li>Location data</li>
+                <li>Cookies or tracking data</li>
+                <li>Payment information (not used in this project)</li>
+              </ul>
+              <p>
+                Your data is stored locally via json-server and not shared
+                with third parties.
+              </p>
+            </>
+          }
+        />
+      </Modal>
+
+      {/* Terms Modal */}
+      <Modal
+        isOpen={isTermsOpen}
+        onClose={() => setIsTermsOpen(false)}
+        title="Terms of Use"
+      >
+        <InfoModal
+          title="Terms of Use"
+          content={
+            <>
+              <p>
+                By using The Wall, you accept the following terms:
+              </p>
+              <ul>
+                <li>
+                  You are responsible for the content you post.
+                </li>
+                <li>
+                  Content that is illegal, hateful, abusive, or infringing
+                  on others' rights is prohibited.
+                </li>
+                <li>
+                  The platform reserves the right to remove any content at
+                  its discretion.
+                </li>
+                <li>
+                  This is a non-commercial art project – no financial
+                  transactions occur.
+                </li>
+                <li>
+                  The platform is provided "as is" with no warranties.
+                </li>
+              </ul>
+              <p>
+                These terms may be updated at any time.
+              </p>
+            </>
+          }
+        />
       </Modal>
     </div>
   );
