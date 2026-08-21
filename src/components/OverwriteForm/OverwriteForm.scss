@@ -4,20 +4,28 @@
 .overwrite-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.2rem;
   width: 100%;
+
+  @include respond-to(mobile) {
+    gap: 1rem;
+  }
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.3rem;
 
   label {
     color: #fff;
     font-size: 0.9rem;
     font-weight: 600;
     letter-spacing: 0.5px;
+
+    @include respond-to(mobile) {
+      font-size: 0.8rem;
+    }
   }
 
   textarea,
@@ -32,6 +40,11 @@
     transition: border-color 0.3s;
     width: 100%;
 
+    @include respond-to(mobile) {
+      padding: 0.6rem;
+      font-size: 0.9rem;
+    }
+
     &:focus {
       outline: none;
       border-color: rgba(255, 255, 255, 0.4);
@@ -45,13 +58,17 @@
   textarea {
     resize: vertical;
     min-height: 80px;
+
+    @include respond-to(mobile) {
+      min-height: 60px;
+    }
   }
 
   .char-counter {
     text-align: right;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.4);
-    margin-top: 0.2rem;
+    margin-top: 0.1rem;
   }
 }
 
@@ -60,6 +77,12 @@
     display: flex;
     gap: 1.5rem;
     margin-top: 0.2rem;
+    flex-wrap: wrap;
+
+    @include respond-to(mobile) {
+      gap: 1rem;
+      flex-direction: column;
+    }
 
     .radio-option {
       display: flex;
@@ -69,11 +92,20 @@
       font-size: 0.9rem;
       cursor: pointer;
 
+      @include respond-to(mobile) {
+        font-size: 0.85rem;
+      }
+
       input[type="radio"] {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
         cursor: pointer;
         accent-color: #ff4d4d;
+
+        @include respond-to(mobile) {
+          width: 20px;
+          height: 20px;
+        }
       }
     }
   }
@@ -84,6 +116,12 @@
   gap: 1rem;
   justify-content: flex-end;
   margin-top: 0.5rem;
+  flex-wrap: wrap;
+
+  @include respond-to(mobile) {
+    gap: 0.6rem;
+    justify-content: stretch;
+  }
 
   button {
     padding: 0.7rem 2rem;
@@ -94,6 +132,13 @@
     cursor: pointer;
     transition: all 0.3s;
     letter-spacing: 0.5px;
+
+    @include respond-to(mobile) {
+      padding: 0.7rem 1.2rem;
+      font-size: 0.9rem;
+      flex: 1;
+      min-width: 80px;
+    }
   }
 
   .btn-cancel {

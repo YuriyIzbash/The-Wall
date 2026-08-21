@@ -29,15 +29,22 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 
   @include respond-to(mobile) {
-    padding: 1.2rem;
+    padding: 1.2rem 1rem;
     margin: 0.5rem;
+    max-width: 100%;
+    max-height: 95vh;
+  }
+
+  @include respond-to(tablet) {
+    padding: 1.5rem;
+    max-width: 90%;
   }
 }
 
 .modal-close {
   position: absolute;
-  top: 0.8rem;
-  right: 1rem;
+  top: 1.6rem;
+  right: 2rem;
   background: none;
   border: none;
   color: rgba(255, 255, 255, 0.6);
@@ -49,6 +56,10 @@
   &:hover {
     color: #fff;
   }
+
+  @include respond-to(mobile) {
+    top: 0.8rem;
+  }
 }
 
 .modal-title {
@@ -58,6 +69,10 @@
   font-weight: 700;
   font-family: 'A Dripping Marker', cursive;
   letter-spacing: 1px;
+
+  @include respond-to(mobile) {
+    font-size: 1.4rem;
+  }
 }
 
 .modal-body {

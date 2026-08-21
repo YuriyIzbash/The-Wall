@@ -3,8 +3,8 @@
 
 .graveyard {
   width: 100%;
-  color: #ff0000;
-  font-size: 0.9rem;
+  color: #ddd;
+  font-size: 1rem;
 
   .empty {
     text-align: center;
@@ -13,18 +13,26 @@
   }
 
   .graveyard-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.85rem;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
 
-    th, td {
-      padding: 0.6rem 0.4rem;
+  @include respond-to(mobile) {
+    font-size: 0.6rem;
+  }
+
+  th, td {
+      padding: 0.8rem 0.4rem;
       text-align: left;
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+      @include respond-to(mobile) {
+        padding: 0.4rem 0.2rem;
+      }
     }
 
     th {
-      color: #ff0000;
+      color: #fff;
       font-weight: 600;
       letter-spacing: 0.5px;
       text-transform: uppercase;
@@ -32,46 +40,77 @@
     }
 
     td {
+      min-width: 60px;
+      max-width: 200px;
       word-break: break-word;
     }
 
     tbody tr:hover {
       background: rgba(255, 255, 255, 0.03);
     }
-  }
 
-  .pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-
-    button {
-      background: rgba(255, 255, 255, 0.08);
-      border: none;
-      color: #ff0000;
-      padding: 0.4rem 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      transition: background 0.3s;
-
-      &:hover:not(:disabled) {
-        background: rgba(255, 255, 255, 0.18);
-      }
-
-      &:disabled {
-        opacity: 0.3;
-        cursor: not-allowed;
-      }
+  @include respond-to(mobile) {
+    th:first-child,
+    td:first-child {
+      min-width: 60px;
+      max-width: 80px;
+      word-break: break-word;
     }
-
-    span {
-      color: #ff0000;
-      font-size: 0.85rem;
+    th:last-child,
+    td:last-child {
+      min-width: 50px;
+      max-width: 70px;
+      word-break: break-word;
     }
   }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+  @include respond-to(mobile) {
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  button {
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    color: #ddd;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background 0.3s;
+
+    @include respond-to(mobile) {
+      padding: 0.3rem 0.8rem;
+      font-size: 0.7rem;
+    }
+
+    &:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+  }
+
+  span {
+    color: #aaa;
+    font-size: 0.7rem;
+
+    @include respond-to(mobile) {
+      font-size: 0.5rem;
+    }
+  }
+}
 }

@@ -1,16 +1,16 @@
 {
   "wall": {
     "id": 1,
-    "message": "Test 1",
-    "author": "test 2",
+    "message": "jasd fas dfa;sj f;ajs fasdjf ;asdj fajsd f;asd jfkasjd;f kasdjf as;dj fa;sjd fsajdf asjd fa;sdf a;s",
+    "author": "asjdf;ajsdfnjas as fjasdflasdj f asdfjasjd fjfs as",
     "showAuthor": true,
-    "createdAt": "2026-08-20T16:16:30.622Z",
+    "createdAt": "2026-08-21T16:32:23.603Z",
     "graffitiStyle": {
-      "fontFamily": "Docallisme on Street, cursive",
-      "textColor": "#66ff66",
+      "fontFamily": "A Dripping Marker, cursive",
+      "textColor": "#ff66ff",
       "gradient": [
-        "#66ccff",
-        "#ff66ff"
+        "#ffcc00",
+        "#ff6600"
       ],
       "shadow": "4px 4px 12px rgba(0,0,0,0.4), 0 0 10px rgba(0,0,0,0.1)"
     }
@@ -271,6 +271,70 @@
       "showAuthor": false,
       "createdAt": "2026-08-19T21:20:56.033Z",
       "destroyedAt": "2026-08-20T16:16:30.622Z"
+    },
+    {
+      "id": "BO3Tmsb58co",
+      "message": "Test 1",
+      "author": "test 2",
+      "showAuthor": true,
+      "createdAt": "2026-08-20T16:16:30.622Z",
+      "destroyedAt": "2026-08-20T16:30:01.590Z"
+    },
+    {
+      "id": "f6q3HP177n0",
+      "message": "test mobile 2",
+      "author": "tm3",
+      "showAuthor": true,
+      "createdAt": "2026-08-20T16:30:01.590Z",
+      "destroyedAt": "2026-08-20T16:56:18.947Z"
+    },
+    {
+      "id": "3x4n8FidUBk",
+      "message": "afndsfn.dasjnf;a fadsfandsjfnasdnfasd asdjfna;sdjfnajsdnflasjdnflasdjnflasdjfnsaldfnsadjnfasdfnlasdj",
+      "author": "asdfasdf",
+      "showAuthor": true,
+      "createdAt": "2026-08-20T16:56:18.947Z",
+      "destroyedAt": "2026-08-20T16:56:43.263Z"
+    },
+    {
+      "id": "mzI-DgE3VyY",
+      "message": "afd s.fn.asmfm  a;dsfkm a; asd f adsf d asf adsf s adf ads f asd fa dsf as fa sdf as dfa sf asfd as",
+      "author": "asdfasfas",
+      "showAuthor": true,
+      "createdAt": "2026-08-20T16:56:43.263Z",
+      "destroyedAt": "2026-08-20T16:56:51.246Z"
+    },
+    {
+      "id": "HaUpk4wzmIs",
+      "message": "1",
+      "author": "1",
+      "showAuthor": true,
+      "createdAt": "2026-08-20T16:56:51.246Z",
+      "destroyedAt": "2026-08-21T13:27:00.385Z"
+    },
+    {
+      "id": "LERz08cEPKo",
+      "message": "222",
+      "author": "3",
+      "showAuthor": true,
+      "createdAt": "2026-08-21T13:27:00.385Z",
+      "destroyedAt": "2026-08-21T13:28:03.808Z"
+    },
+    {
+      "id": "XhXNMcmZJwo",
+      "message": "bbbbbb",
+      "author": "33",
+      "showAuthor": false,
+      "createdAt": "2026-08-21T13:28:03.808Z",
+      "destroyedAt": "2026-08-21T13:28:25.604Z"
+    },
+    {
+      "id": "tvy0dXxfgR0",
+      "message": "ssasf adlsj'lkfn and;fja kdlja;sdglkjf a;dfkaj ;dkfja'dfk ja'fkajsdf';ajs dak'jflskdfj 'askdfj asd'f",
+      "author": "asdfdsasd/kfljaklsdfj'asdgfkjasdlkfj'adskfjas'dkfj",
+      "showAuthor": true,
+      "createdAt": "2026-08-21T13:28:25.604Z",
+      "destroyedAt": "2026-08-21T16:32:23.603Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -32,18 +32,33 @@
       .message {
         flex: 1;
         word-break: break-word;
+
+        @include respond-to(mobile) {
+          font-size: 0.6rem;
+        }
       }
       .author {
         color: #aaa;
         font-size: 0.8rem;
-        min-width: 80px;
+        min-width: 60px;
+        max-width: 140px;
         text-align: right;
+        word-break: break-word;
+
+        @include respond-to(mobile) {
+          max-width: 80px;
+          font-size: 0.6rem;
+        }
       }
       .duration {
         font-size: 0.75rem;
         color: #888;
         min-width: 60px;
         text-align: right;
+
+        @include respond-to(mobile) {
+          font-size: 0.6rem;
+        }
       }
     }
   }
