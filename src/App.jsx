@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.scss';
-import GraffitiMessage from './components/GraffitiMessage';
+import GraffitiMessage from './components/GraffitiMessage/GraffitiMessage';
 import Modal from './components/Modal/Modal';
 import OverwriteForm from './components/OverwriteForm/OverwriteForm';
 import { getRandomGraffitiStyle } from './utils/graffitiStyles';

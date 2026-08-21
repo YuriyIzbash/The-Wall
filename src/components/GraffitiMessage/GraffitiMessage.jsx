@@ -15,7 +15,7 @@ function GraffitiMessage({ message, author, showAuthor, style }) {
     textShadow: shadow,
   };
 
-  // if gradient exists, we use it, otherwise solid color used
+  // if gradient exists, otherwise solid color used
   const textStyle = {
     ...baseTextStyle,
     color: gradient ? 'transparent' : textColor,
