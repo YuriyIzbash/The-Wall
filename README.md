@@ -29,7 +29,7 @@ The Wall is an interactive digital art piece. Only one graffiti message exists o
    npm install
    ```
 
-3. Start the `json-server` in a separate terminal:
+3. Start the `json-server` in a **separate terminal**:
 
    ```bash
    npm run server
