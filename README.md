@@ -8,7 +8,8 @@ The Wall is an interactive digital art piece. Only one graffiti message exists o
 
 ## Technologies
 
-* **React** – UI components, state management, hooks
+* **React** – components, props, state (`useState`), effects (`useEffect`), and events
+* **Fetch API** – communication between the React application and json-server
 * **Vite** – fast build tool and development server
 * **Sass (SCSS)** – modular styles with variables and mixins
 * **json-server** – mock REST API for data persistence
@@ -40,7 +41,7 @@ The Wall is an interactive digital art piece. Only one graffiti message exists o
 4. Start the React development server:
 
    ```bash
-   npm run dev
+   npm start
    ```
 
    Vite runs on `http://localhost:5173`.
@@ -63,13 +64,17 @@ The Wall is an interactive digital art piece. Only one graffiti message exists o
 ## Project Structure
 
 ```text
-src/
-├── components/          # Reusable UI components
-├── styles/              # SCSS partials (variables, mixins, reset)
-├── utils/               # Helper functions (graffiti styles, duration formatting)
-├── assets/              # Images and fonts
-├── App.jsx              # Main application component
-└── main.jsx             # Entry point
+The-Wall/
+├── db.json                 # json-server database
+├── package.json            # Project configuration and scripts
+├── README.md
+└── src/
+    ├── components/        # Reusable UI components
+    ├── styles/            # SCSS partials
+    ├── utils/             # Helper functions
+    ├── assets/            # Images and fonts
+    ├── App.jsx            # Main application component
+    └── main.jsx           # Entry point
 ```
 
 ## License
