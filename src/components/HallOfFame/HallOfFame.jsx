@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './HallOfFame.scss';
 import { formatDuration } from '../../utils/formatDuration';
+import { API_BASE_URL } from '../../config/api';
 
 function HallOfFame() {
   const [entries, setEntries] = useState([]);
@@ -8,12 +9,16 @@ function HallOfFame() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:5001/graveyard')
+    fetch(`${API_BASE_URL}/graveyard`)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch graveyard');
         return res.json();
       })
       .then((data) => {
+        if (!Array.isArray(data)) {
+          throw new Error('Invalid data format from server');
+        }
+
         // Calculate survival time in milliseconds
         const withDuration = data.map((entry) => {
           const created = new Date(entry.createdAt);

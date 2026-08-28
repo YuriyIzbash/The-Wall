@@ -3,11 +3,12 @@ import './App.scss';
 import GraffitiMessage from './components/GraffitiMessage/GraffitiMessage';
 import Modal from './components/Modal/Modal';
 import OverwriteForm from './components/OverwriteForm/OverwriteForm';
-import { getRandomGraffitiStyle } from './utils/graffitiStyles';
+import { DEFAULT_GRAFFITI_STYLE } from './utils/graffitiStyles';
 import Graveyard from './components/Graveyard/Graveyard';
 import HallOfFame from './components/HallOfFame/HallOfFame';
 import MessageOfTheWeek from './components/MessageOfTheWeek/MessageOfTheWeek';
 import InfoModal from './components/InfoModal/InfoModal';
+import { API_BASE_URL } from './config/api';
 
 function App() {
   const [wallData, setWallData] = useState(null);
@@ -23,16 +24,16 @@ function App() {
 
   // Fetch wall on mount
   useEffect(() => {
-    fetch('http://localhost:5001/wall')
+    fetch(`${API_BASE_URL}/wall`)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch wall');
         return res.json();
       })
       .then((data) => {
-        if (!data.graffitiStyle) {
-          data.graffitiStyle = getRandomGraffitiStyle();
-        }
-        setWallData(data);
+        setWallData({
+          ...data,
+          graffitiStyle: data.graffitiStyle || DEFAULT_GRAFFITI_STYLE,
+        });
         setLoading(false);
       })
       .catch((err) => {
@@ -41,8 +42,10 @@ function App() {
       });
   }, []);
 
-  const handleOverwriteSubmit = (formData) => {
-    if (!wallData) return;
+  const handleOverwriteSubmit = async (formData) => {
+    if (!wallData) {
+      throw new Error('Wall data is not loaded yet.');
+    }
 
     const oldWall = wallData;
 
@@ -66,32 +69,28 @@ function App() {
       graffitiStyle: formData.style,
     };
 
-    // Save to graveyard and update wall
-    Promise.all([
-      fetch('http://localhost:5001/graveyard', {
+    const [graveyardRes, wallRes] = await Promise.all([
+      fetch(`${API_BASE_URL}/graveyard`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(graveyardEntry),
       }),
-      fetch('http://localhost:5001/wall', {
+      fetch(`${API_BASE_URL}/wall`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newWall),
       }),
-    ])
-      .then(([graveyardRes, wallRes]) => {
-        if (!graveyardRes.ok || !wallRes.ok) throw new Error('Failed to save');
-        return Promise.all([graveyardRes.json(), wallRes.json()]);
-      })
-      .then(([_, updatedWall]) => {
-        const finalWall = updatedWall.graffitiStyle ? updatedWall : newWall;
-        setWallData(finalWall);
-        setIsOverwriteModalOpen(false);
-      })
-      .catch((err) => {
-        console.error('Overwrite error:', err);
-        alert('Something went wrong. Please try again.');
-      });
+    ]);
+
+    if (!graveyardRes.ok || !wallRes.ok) {
+      throw new Error('Something went wrong. Please try again.');
+    }
+
+    const updatedWall = await wallRes.json();
+    const finalWall = updatedWall.graffitiStyle ? updatedWall : newWall;
+
+    setWallData(finalWall);
+    setIsOverwriteModalOpen(false);
   };
 
   if (loading) return <div className="loading-screen">Loading Wall...</div>;
@@ -118,12 +117,24 @@ function App() {
       </button>
 
       <nav className="bottom-nav">
-        <span onClick={() => setIsHallOfFameOpen(true)}>Hall of Fame</span>
-        <span onClick={() => setIsMessageOfWeekOpen(true)}>Message of the Week</span>
-        <span onClick={() => setIsGraveyardModalOpen(true)}>Graveyard</span>
-        <span onClick={() => setIsRulesOpen(true)}>Rules</span>
-        <span onClick={() => setIsPrivacyOpen(true)}>Privacy</span>
-        <span onClick={() => setIsTermsOpen(true)}>Terms</span>
+        <button type="button" onClick={() => setIsHallOfFameOpen(true)}>
+          Hall of Fame
+        </button>
+        <button type="button" onClick={() => setIsMessageOfWeekOpen(true)}>
+          Message of the Week
+        </button>
+        <button type="button" onClick={() => setIsGraveyardModalOpen(true)}>
+          Graveyard
+        </button>
+        <button type="button" onClick={() => setIsRulesOpen(true)}>
+          Rules
+        </button>
+        <button type="button" onClick={() => setIsPrivacyOpen(true)}>
+          Privacy
+        </button>
+        <button type="button" onClick={() => setIsTermsOpen(true)}>
+          Terms
+        </button>
       </nav>
 
       {/* Overwrite Modal */}

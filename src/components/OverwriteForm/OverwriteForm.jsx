@@ -7,44 +7,52 @@ function OverwriteForm({ onSubmit, onCancel }) {
   const [author, setAuthor] = useState('');
   const [showAuthor, setShowAuthor] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState('');
   const [randomStyle] = useState(() => getRandomGraffitiStyle());
 
   const MAX_MESSAGE_LENGTH = 100;
   const MAX_AUTHOR_LENGTH = 50;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
+    if (isSubmitting) return;
+
+    setFormError('');
+
     if (!message.trim()) {
-      alert('Please enter a message');
+      setFormError('Please enter a message.');
       return;
     }
 
     if (message.length > MAX_MESSAGE_LENGTH) {
-      alert(`Message cannot exceed ${MAX_MESSAGE_LENGTH} characters`);
+      setFormError(`Message cannot exceed ${MAX_MESSAGE_LENGTH} characters.`);
       return;
     }
 
     if (author.length > MAX_AUTHOR_LENGTH) {
-      alert(`Author name cannot exceed ${MAX_AUTHOR_LENGTH} characters`);
+      setFormError(`Author name cannot exceed ${MAX_AUTHOR_LENGTH} characters.`);
       return;
     }
 
     setIsSubmitting(true);
-    
-    // Submit the data
-    onSubmit({
-      message: message.trim(),
-      author: author.trim() || 'Anonymous',
-      showAuthor: showAuthor,
-      style: randomStyle,
-    });
 
-    // Reset form
-    setMessage('');
-    setAuthor('');
-    setShowAuthor(false);
-    setIsSubmitting(false);
+    try {
+      await onSubmit({
+        message: message.trim(),
+        author: author.trim() || 'Anonymous',
+        showAuthor,
+        style: randomStyle,
+      });
+
+      setMessage('');
+      setAuthor('');
+      setShowAuthor(false);
+    } catch (err) {
+      setFormError(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -58,7 +66,6 @@ function OverwriteForm({ onSubmit, onCancel }) {
           maxLength={MAX_MESSAGE_LENGTH}
           placeholder="Write your graffiti message..."
           rows={4}
-          required
         />
         <div className="char-counter">
           {message.length} / {MAX_MESSAGE_LENGTH}
@@ -86,6 +93,7 @@ function OverwriteForm({ onSubmit, onCancel }) {
           <label className="radio-option">
             <input
               type="radio"
+              name="authorVisibility"
               checked={!showAuthor}
               onChange={() => setShowAuthor(false)}
             />
@@ -94,6 +102,7 @@ function OverwriteForm({ onSubmit, onCancel }) {
           <label className="radio-option">
             <input
               type="radio"
+              name="authorVisibility"
               checked={showAuthor}
               onChange={() => setShowAuthor(true)}
             />
@@ -102,8 +111,19 @@ function OverwriteForm({ onSubmit, onCancel }) {
         </div>
       </div>
 
+      {formError && (
+        <p className="form-error" role="alert">
+          {formError}
+        </p>
+      )}
+
       <div className="form-actions">
-        <button type="button" className="btn-cancel" onClick={onCancel}>
+        <button
+          type="button"
+          className="btn-cancel"
+          onClick={onCancel}
+          disabled={isSubmitting}
+        >
           Cancel
         </button>
         <button type="submit" className="btn-submit" disabled={isSubmitting}>

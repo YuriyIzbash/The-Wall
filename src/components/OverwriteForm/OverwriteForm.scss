@@ -1,5 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/mixins';
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
 
 .overwrite-form {
   display: flex;
@@ -100,7 +100,7 @@
         width: 18px;
         height: 18px;
         cursor: pointer;
-        accent-color: #ff4d4d;
+        accent-color: $overwrite-color;
 
         @include respond-to(mobile) {
           width: 20px;
@@ -109,6 +109,14 @@
       }
     }
   }
+
+}
+
+.form-error {
+  color: $overwrite-color;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin: -0.2rem 0 0;
 }
 
 .form-actions {
@@ -145,14 +153,14 @@
     background: rgba(255, 255, 255, 0.1);
     color: #aaa;
 
-    &:hover {
+    &:hover:not(:disabled) {
       background: rgba(255, 255, 255, 0.2);
       color: #fff;
     }
   }
 
   .btn-submit {
-    background: #ff4d4d;
+    background: $overwrite-color;
     color: #fff;
     box-shadow: 0 4px 15px rgba(255, 77, 77, 0.3);
 

@@ -96,11 +96,20 @@ const defaultShadow = '4px 4px 12px rgba(0,0,0,0.4), 0 0 10px rgba(0,0,0,0.1)';
 
 const randomItem = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
+export const DEFAULT_GRAFFITI_STYLE = {
+  fontFamily: 'Mostwasted, sans-serif',
+  textColor: '#00ccff',
+  gradient: ['#ff66cc', '#66ff99'],
+  shadow: defaultShadow,
+};
+
 export const getRandomGraffitiStyle = () => {
+  const useGradient = Math.random() < 0.65;
+
   return {
     fontFamily: randomItem(fonts),
     textColor: randomItem(textColors),
-    gradient: randomItem(gradients),
+    gradient: useGradient ? randomItem(gradients) : null,
     shadow: defaultShadow,
   };
 };

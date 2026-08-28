@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './MessageOfTheWeek.scss';
 import { formatDuration } from '../../utils/formatDuration';
+import { API_BASE_URL } from '../../config/api';
 
 function MessageOfTheWeek() {
   const [message, setMessage] = useState(null);
@@ -8,12 +9,16 @@ function MessageOfTheWeek() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:5001/graveyard')
+    fetch(`${API_BASE_URL}/graveyard`)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch graveyard');
         return res.json();
       })
       .then((data) => {
+        if (!Array.isArray(data)) {
+          throw new Error('Invalid data format from server');
+        }
+
         const now = new Date();
         const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
         const recent = data.filter((entry) => {

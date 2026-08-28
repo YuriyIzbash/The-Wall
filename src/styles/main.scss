@@ -1,3 +1,7 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+@use 'reset';
+
 // Graffiti fonts
 @font-face {
   font-family: 'A Another Tag';
@@ -243,7 +247,3 @@
   font-weight: normal;
   font-style: normal;
 }
-
-@import 'variables';
-@import 'mixins';
-@import 'reset';

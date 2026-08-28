@@ -10,33 +10,32 @@ function GraffitiMessage({ message, author, showAuthor, style }) {
     shadow = '2px 2px 8px rgba(0,0,0,0.8)',
   } = style || {};
 
-  const baseTextStyle = {
-    fontFamily: fontFamily,
+  const hasGradient = Array.isArray(gradient) && gradient.length >= 2;
+
+  const getTextStyle = (extraStyles = {}) => ({
+    fontFamily,
     textShadow: shadow,
-  };
+    ...extraStyles,
+    color: hasGradient ? 'transparent' : textColor,
+    background: hasGradient
+      ? `linear-gradient(to right, ${gradient[0]}, ${gradient[1]})`
+      : 'none',
+    WebkitBackgroundClip: hasGradient ? 'text' : 'unset',
+    WebkitTextFillColor: hasGradient ? 'transparent' : 'unset',
+  });
 
-  // if gradient exists, otherwise solid color used
-  const textStyle = {
-    ...baseTextStyle,
-    color: gradient ? 'transparent' : textColor,
-    background: gradient ? `linear-gradient(to right, ${gradient[0]}, ${gradient[1]})` : 'none',
-    WebkitBackgroundClip: gradient ? 'text' : 'unset',
-    WebkitTextFillColor: gradient ? 'transparent' : 'unset',
-  };
+  const textStyle = getTextStyle();
 
-  const authorStyle = {
-    ...baseTextStyle,
+  const authorStyle = getTextStyle({
     fontSize: 'clamp(1rem, 3vw, 2rem)',
-    color: gradient ? 'transparent' : textColor,
-    background: gradient ? `linear-gradient(to right, ${gradient[0]}, ${gradient[1]})` : 'none',
-    WebkitBackgroundClip: gradient ? 'text' : 'unset',
-    WebkitTextFillColor: gradient ? 'transparent' : 'unset',
-  };
+  });
 
-  const containerStyle = {};
-    if (gradient) {
-      containerStyle.filter = `drop-shadow(0 0 6px rgba(0,0,0,0.8)) drop-shadow(0 0 20px rgba(0,0,0,0.3))`;
-    }
+  const containerStyle = hasGradient
+    ? {
+        filter:
+          'drop-shadow(0 0 6px rgba(0,0,0,0.8)) drop-shadow(0 0 20px rgba(0,0,0,0.3))',
+      }
+    : {};
 
   return (
     <div className="graffiti-message" style={containerStyle}>
@@ -45,7 +44,7 @@ function GraffitiMessage({ message, author, showAuthor, style }) {
       </p>
       {showAuthor && author && (
         <p className="message-author" style={authorStyle}>
-          — {author}
+          - {author}
         </p>
       )}
     </div>

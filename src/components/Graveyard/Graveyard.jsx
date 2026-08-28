@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Graveyard.scss';
+import { API_BASE_URL } from '../../config/api';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -19,25 +20,23 @@ function Graveyard() {
     setLoading(true);
     setError(null);
 
-    fetch('http://localhost:5001/graveyard')
+    fetch(`${API_BASE_URL}/graveyard`)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP error ${res.status}`);
         return res.json();
       })
       .then((data) => {
         if (!Array.isArray(data)) {
-          console.error('Graveyard API did not return an array:', data);
           throw new Error('Invalid data format from server');
         }
         // Sort newest first
-        const sorted = data.sort(
+        const sorted = [...data].sort(
           (a, b) => new Date(b.destroyedAt) - new Date(a.destroyedAt)
         );
         setAllEntries(sorted);
         setLoading(false);
       })
       .catch((err) => {
-        console.error('Graveyard fetch error:', err);
         setError(err.message || 'Failed to load graveyard');
         setLoading(false);
       });
