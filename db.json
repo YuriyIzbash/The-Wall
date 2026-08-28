@@ -1,16 +1,16 @@
 {
   "wall": {
     "id": 1,
-    "message": "asd. ads f asf a sdf a sdf a sdf a f sda fa sf sa f asd fda sf. a fds fa ds fa sf. adsf a sdf a sdf",
-    "author": "l;alsdmfasdfasdfasdasdf adsfadsfasdfadsfasdfdasads",
+    "message": "One 1 one",
+    "author": "two 2",
     "showAuthor": true,
-    "createdAt": "2026-08-28T14:23:43.867Z",
+    "createdAt": "2026-08-28T14:42:08.535Z",
     "graffitiStyle": {
-      "fontFamily": "Graffiti Treat, cursive",
-      "textColor": "#cc99ff",
+      "fontFamily": "DropShade-Melt, cursive",
+      "textColor": "#66ffcc",
       "gradient": [
-        "#ff66cc",
-        "#66ff99"
+        "#ffcc00",
+        "#ff6600"
       ],
       "shadow": "4px 4px 12px rgba(0,0,0,0.4), 0 0 10px rgba(0,0,0,0.1)"
     }
@@ -87,6 +87,14 @@
       "showAuthor": true,
       "createdAt": "2026-08-28T14:11:47.291Z",
       "destroyedAt": "2026-08-28T14:23:43.867Z"
+    },
+    {
+      "id": "nE65sCz98Bc",
+      "message": "asd. ads f asf a sdf a sdf a sdf a f sda fa sf sa f asd fda sf. a fds fa ds fa sf. adsf a sdf a sdf",
+      "author": "l;alsdmfasdfasdfasdasdf adsfadsfasdfadsfasdfdasads",
+      "showAuthor": true,
+      "createdAt": "2026-08-28T14:23:43.867Z",
+      "destroyedAt": "2026-08-28T14:42:08.535Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
