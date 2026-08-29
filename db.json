@@ -1,17 +1,14 @@
 {
   "wall": {
     "id": 1,
-    "message": "One 1 one",
-    "author": "two 2",
+    "message": "The only true wisdom is in knowing you know nothing.",
+    "author": "Socrates",
     "showAuthor": true,
-    "createdAt": "2026-08-28T14:42:08.535Z",
+    "createdAt": "2026-08-29T14:00:27.887Z",
     "graffitiStyle": {
-      "fontFamily": "DropShade-Melt, cursive",
+      "fontFamily": "MARKER-NO2HUN, cursive",
       "textColor": "#66ffcc",
-      "gradient": [
-        "#ffcc00",
-        "#ff6600"
-      ],
+      "gradient": null,
       "shadow": "4px 4px 12px rgba(0,0,0,0.4), 0 0 10px rgba(0,0,0,0.1)"
     }
   },
@@ -95,6 +92,14 @@
       "showAuthor": true,
       "createdAt": "2026-08-28T14:23:43.867Z",
       "destroyedAt": "2026-08-28T14:42:08.535Z"
+    },
+    {
+      "id": "0vc1GIBSwJ4",
+      "message": "One 1 one",
+      "author": "two 2",
+      "showAuthor": true,
+      "createdAt": "2026-08-28T14:42:08.535Z",
+      "destroyedAt": "2026-08-29T14:00:27.887Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
