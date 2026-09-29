@@ -65,6 +65,7 @@ function App() {
   }, [loadWall]);
 
   const closeOverwrite = useCallback(() => {
+    setContribution(null);
     setModals((current) => ({ ...current, overwrite: false }));
   }, []);
 
@@ -88,7 +89,7 @@ function App() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ network }),
     });
-    setContribution(null);
+
     closeOverwrite();
     await loadWall();
   };
