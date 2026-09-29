@@ -4,10 +4,12 @@
   "main": "worker/src/index.ts",
   "compatibility_date": "2026-09-29",
   "vars": {
-    "TRONSCAN_API_URL": "https://apilist.tronscanapi.com/api/transaction-info",
-    "WALL_RECEIVING_ADDRESS": "TY8uAhzywQm76gqrg9NsaM6RBhYGuC3dCf",
-    "USDT_CONTRACT_ADDRESS": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
-    "PAYMENT_EXPIRATION_MINUTES": "30",
+    "PAYMENT_BSC_ADDRESS": "",
+    "PAYMENT_ETHEREUM_ADDRESS": "",
+    "PAYMENT_TRON_ADDRESS": "TY8uAhzywQm76gqrg9NsaM6RBhYGuC3dCf",
+    "PAYMENT_POLYGON_ADDRESS": "",
+    "PAYMENT_SOLANA_ADDRESS": "",
+    "PAYMENT_TON_ADDRESS": "",
     "FRONTEND_ORIGIN": "https://wall.rest",
   },
   "d1_databases": [

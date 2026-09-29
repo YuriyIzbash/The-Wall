@@ -17,25 +17,33 @@ The Wall is an interactive digital art piece. Only one graffiti message exists o
 - Info modals: Rules, Privacy Policy, Terms of Use
 - Fully responsive design for mobile, tablet, and desktop
 
-## Payment setup
+## Contribution setup
 
-Overwrites are paid with exactly 1 USDT on TRON. The Worker verifies a submitted
-transaction hash with TRONSCAN before it publishes the pending message.
+The Wall invites visitors to make a voluntary contribution of 1 USDT or more.
+It does not verify or monitor contributions. Selecting a network and continuing
+publishes the overwrite.
 
-Set the following Worker secret before deploying:
-
-```sh
-npx wrangler secret put TRONSCAN_API_KEY
-```
-
-The public Worker configuration in `wrangler.jsonc` supplies the receiving address,
-USDT contract, payment expiry, and allowed frontend origin. Change those values there
-when deploying a different environment; do not put the TRONSCAN API key in the frontend.
-
-For local development, put the same key in `worker/.dev.vars`:
+Set these public Worker variables in `wrangler.jsonc` (or the Cloudflare Workers
+dashboard) with the receiving address for each network:
 
 ```text
-TRONSCAN_API_KEY=your-tronscan-api-key
+PAYMENT_BSC_ADDRESS
+PAYMENT_ETHEREUM_ADDRESS
+PAYMENT_TRON_ADDRESS
+PAYMENT_POLYGON_ADDRESS
+PAYMENT_SOLANA_ADDRESS
+PAYMENT_TON_ADDRESS
+```
+
+For local development, put the same values in `worker/.dev.vars`:
+
+```text
+PAYMENT_BSC_ADDRESS=your-bsc-address
+PAYMENT_ETHEREUM_ADDRESS=your-ethereum-address
+PAYMENT_TRON_ADDRESS=your-tron-address
+PAYMENT_POLYGON_ADDRESS=your-polygon-address
+PAYMENT_SOLANA_ADDRESS=your-solana-address
+PAYMENT_TON_ADDRESS=your-ton-address
 ```
 
 Run the app and Worker in separate terminals:

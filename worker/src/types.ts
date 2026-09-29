@@ -18,29 +18,25 @@ export interface D1Database {
 
 export interface Env {
   DB: D1Database;
-  TRONSCAN_API_URL: string;
-  TRONSCAN_API_KEY: string;
-  WALL_RECEIVING_ADDRESS: string;
-  USDT_CONTRACT_ADDRESS: string;
-  PAYMENT_EXPIRATION_MINUTES: string;
+  PAYMENT_BSC_ADDRESS: string;
+  PAYMENT_ETHEREUM_ADDRESS: string;
+  PAYMENT_TRON_ADDRESS: string;
+  PAYMENT_POLYGON_ADDRESS: string;
+  PAYMENT_SOLANA_ADDRESS: string;
+  PAYMENT_TON_ADDRESS: string;
   FRONTEND_ORIGIN: string;
 }
 
-export interface PaymentRow {
+export type ContributionNetwork = 'bsc' | 'ethereum' | 'tron' | 'polygon' | 'solana' | 'ton';
+
+export interface ContributionRow {
   id: string;
   message_id: string;
-  expected_amount: string;
+  requested_amount: string;
   token: 'USDT';
-  network: 'TRON';
+  network: ContributionNetwork;
   recipient_address: string;
-  transaction_hash: string | null;
-  sender_address: string | null;
-  status: 'pending' | 'confirmed' | 'invalid' | 'expired';
   created_at: string;
-  expires_at: string;
-  confirmed_at: string | null;
-  verification_attempts: number;
-  last_checked_at: string | null;
 }
 
 export interface MessageRow {
@@ -53,5 +49,6 @@ export interface MessageRow {
   created_at: string;
   overwritten_at: string | null;
   status: 'pending' | 'active' | 'overwritten';
-  payment_id: string;
+  payment_id: string | null;
+  contribution_id: string | null;
 }

@@ -3,7 +3,7 @@ import './App.scss';
 import GraffitiMessage from './components/GraffitiMessage/GraffitiMessage';
 import Modal from './components/Modal/Modal';
 import OverwriteForm from './components/OverwriteForm/OverwriteForm';
-import PaymentPanel from './components/PaymentPanel/PaymentPanel';
+import ContributionPanel from './components/ContributionPanel/ContributionPanel';
 import Graveyard from './components/Graveyard/Graveyard';
 import HallOfFame from './components/HallOfFame/HallOfFame';
 import MessageOfTheWeek from './components/MessageOfTheWeek/MessageOfTheWeek';
@@ -12,25 +12,11 @@ import { DEFAULT_GRAFFITI_STYLE } from './utils/graffitiStyles';
 import { apiFetch } from './config/api';
 import { rulesContent, privacyContent, termsContent } from './config/infoContent';
 
-const PENDING_PAYMENT_STORAGE_KEY = 'the-wall:pending-payment';
-const TERMINAL_PAYMENT_STATUSES = new Set(['confirmed', 'invalid', 'expired']);
-
-const paymentIdOf = (payment) => payment?.paymentId ?? payment?.id;
-const normalizePayment = (payment) => ({ ...payment, paymentId: paymentIdOf(payment) });
-
-const savePendingPayment = (payment) => {
-  if (!payment || TERMINAL_PAYMENT_STATUSES.has(payment.status)) {
-    window.localStorage.removeItem(PENDING_PAYMENT_STORAGE_KEY);
-    return;
-  }
-  window.localStorage.setItem(PENDING_PAYMENT_STORAGE_KEY, JSON.stringify(payment));
-};
-
 function App() {
   const [wallData, setWallData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [pendingPayment, setPendingPayment] = useState(null);
+  const [contribution, setContribution] = useState(null);
 
   // Modal states
   const [modals, setModals] = useState({
@@ -78,39 +64,12 @@ function App() {
     void loadWall();
   }, [loadWall]);
 
-  // Pending payments belong to this browser only; the server remains authoritative for status.
-  useEffect(() => {
-    try {
-      const stored = JSON.parse(window.localStorage.getItem(PENDING_PAYMENT_STORAGE_KEY) || 'null');
-      if (stored && typeof paymentIdOf(stored) === 'string') {
-        setPendingPayment(normalizePayment(stored));
-        setModals((current) => ({ ...current, overwrite: true }));
-      }
-    } catch {
-      window.localStorage.removeItem(PENDING_PAYMENT_STORAGE_KEY);
-    }
-  }, []);
-
-  const handlePaymentChange = useCallback((payment) => {
-    const normalized = normalizePayment(payment);
-    setPendingPayment(normalized);
-    savePendingPayment(normalized);
-  }, []);
-
-  const handlePaymentPublished = useCallback(async () => {
-    await loadWall();
-  }, [loadWall]);
-
   const closeOverwrite = useCallback(() => {
     setModals((current) => ({ ...current, overwrite: false }));
-    setPendingPayment((payment) => {
-      if (payment && TERMINAL_PAYMENT_STATUSES.has(payment.status)) return null;
-      return payment;
-    });
   }, []);
 
   const handleOverwriteSubmit = async (formData) => {
-    const payment = await apiFetch('/overwrites', {
+    const result = await apiFetch('/overwrites', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -120,9 +79,18 @@ function App() {
       }),
     });
 
-    const pending = normalizePayment({ ...payment, status: 'pending' });
-    handlePaymentChange(pending);
-    return pending;
+    setContribution(result.contribution);
+  };
+
+  const handleContributionContinue = async ({ contributionId, network }) => {
+    await apiFetch(`/contributions/${contributionId}/continue`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ network }),
+    });
+    setContribution(null);
+    closeOverwrite();
+    await loadWall();
   };
 
   if (loading) return <div className="loading-screen">Loading Wall...</div>;
@@ -142,12 +110,11 @@ function App() {
   // Modal configuration
   const modalConfigs = {
     overwrite: {
-      title: pendingPayment ? 'OVERWRITE THE WALL' : 'Create New Graffiti',
-      content: pendingPayment ? (
-        <PaymentPanel
-          payment={pendingPayment}
-          onPaymentChange={handlePaymentChange}
-          onPublished={handlePaymentPublished}
+      title: contribution ? 'SUPPORT THE WALL' : 'Create New Graffiti',
+      content: contribution ? (
+        <ContributionPanel
+          contribution={contribution}
+          onContinue={handleContributionContinue}
           onClose={closeOverwrite}
         />
       ) : (
