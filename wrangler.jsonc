@@ -3,6 +3,7 @@
   "name": "the-wall-api",
   "main": "worker/src/index.ts",
   "compatibility_date": "2026-09-29",
+  "keep_vars": true,
   "vars": {
     "PAYMENT_BSC_ADDRESS": "0x7Be203920E72D800671b7F57F058AAAa6b8CaFcF",
     "PAYMENT_ETHEREUM_ADDRESS": "0x7Be203920E72D800671b7F57F058AAAa6b8CaFcF",
