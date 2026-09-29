@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+worker/.dev.vars
+.env
+.env.*
+!.env.example
