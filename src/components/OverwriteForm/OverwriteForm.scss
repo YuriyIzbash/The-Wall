@@ -29,7 +29,7 @@
   }
 
   textarea,
-  input[type="text"] {
+  input[type='text'] {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 6px;
@@ -96,7 +96,7 @@
         font-size: 0.85rem;
       }
 
-      input[type="radio"] {
+      input[type='radio'] {
         width: 18px;
         height: 18px;
         cursor: pointer;
@@ -109,7 +109,6 @@
       }
     }
   }
-
 }
 
 .form-error {
@@ -117,6 +116,18 @@
   font-size: 0.85rem;
   line-height: 1.4;
   margin: -0.2rem 0 0;
+}
+
+.payment-status {
+  color: #ddd;
+  font-size: 0.9rem;
+  line-height: 1.5;
+
+  .payment-id {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.75rem;
+    overflow-wrap: anywhere;
+  }
 }
 
 .form-actions {

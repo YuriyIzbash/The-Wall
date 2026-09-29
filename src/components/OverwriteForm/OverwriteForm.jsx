@@ -2,7 +2,14 @@ import { useState } from 'react';
 import './OverwriteForm.scss';
 import { getRandomGraffitiStyle } from '../../utils/graffitiStyles';
 
-function OverwriteForm({ onSubmit, onCancel }) {
+const PAYMENT_STATUS_MESSAGES = {
+  pending: 'Your overwrite is pending payment and has not been published to the Wall.',
+  confirmed: 'Your payment is confirmed and the Wall has been updated.',
+  invalid: 'This payment could not be verified.',
+  expired: 'This payment has expired.',
+};
+
+function OverwriteForm({ onSubmit, onCancel, payment }) {
   const [message, setMessage] = useState('');
   const [author, setAuthor] = useState('');
   const [showAuthor, setShowAuthor] = useState(false);
@@ -54,6 +61,20 @@ function OverwriteForm({ onSubmit, onCancel }) {
       setIsSubmitting(false);
     }
   };
+
+  if (payment) {
+    return (
+      <div className="payment-status" role="status">
+        <p>{PAYMENT_STATUS_MESSAGES[payment.status] || 'Payment status is being updated.'}</p>
+        <p className="payment-id">Payment ID: {payment.paymentId}</p>
+        <div className="form-actions">
+          <button type="button" className="btn-cancel" onClick={onCancel}>
+            Close
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <form className="overwrite-form" onSubmit={handleSubmit}>
@@ -118,12 +139,7 @@ function OverwriteForm({ onSubmit, onCancel }) {
       )}
 
       <div className="form-actions">
-        <button
-          type="button"
-          className="btn-cancel"
-          onClick={onCancel}
-          disabled={isSubmitting}
-        >
+        <button type="button" className="btn-cancel" onClick={onCancel} disabled={isSubmitting}>
           Cancel
         </button>
         <button type="submit" className="btn-submit" disabled={isSubmitting}>

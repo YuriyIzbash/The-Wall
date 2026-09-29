@@ -31,25 +31,56 @@ const firstString = (...values: unknown[]): string | null => {
 };
 
 const isSuccessful = (payload: UnknownRecord): boolean => {
-  if (payload.contractRet === 'SUCCESS' || payload.contract_ret === 'SUCCESS') return true;
-  if (payload.success === true) return true;
+  if (payload.revert === true) return false;
+  const contractResult = firstString(payload.contractRet, payload.contract_ret);
+  if (contractResult !== null) return contractResult === 'SUCCESS';
   const ret = Array.isArray(payload.ret) ? asRecord(payload.ret[0]) : null;
-  return ret?.contractRet === 'SUCCESS' || ret?.contract_ret === 'SUCCESS';
+  const returnResult = firstString(ret?.contractRet, ret?.contract_ret);
+  if (returnResult !== null) return returnResult === 'SUCCESS';
+  return payload.success === true;
 };
 
-const transferFrom = (payload: UnknownRecord): UnknownRecord | null => {
-  const candidates = [
-    payload.tokenTransferInfo,
-    payload.token_transfer_info,
-    payload.trc20TransferInfo,
-    payload.trc20_transfer_info,
-  ];
-  for (const candidate of candidates) {
-    const record = asRecord(candidate);
-    if (record) return record;
+const asRecords = (value: unknown): UnknownRecord[] => {
+  if (Array.isArray(value)) {
+    return value.flatMap((item) => {
+      const record = asRecord(item);
+      return record ? [record] : [];
+    });
   }
-  return null;
+  const record = asRecord(value);
+  return record ? [record] : [];
 };
+
+const transferCandidates = (payload: UnknownRecord): UnknownRecord[] => [
+  // TRONSCAN documents these two fields as arrays.
+  ...asRecords(payload.trc20TransferInfo),
+  ...asRecords(payload.trc20_transfer_info),
+  // Older/single-transfer responses expose the same element schema as an object.
+  ...asRecords(payload.tokenTransferInfo),
+  ...asRecords(payload.token_transfer_info),
+];
+
+const transferRecipient = (transfer: UnknownRecord): string | null =>
+  firstString(transfer.to_address, transfer.toAddress, transfer.to);
+
+const optionalValue = (...values: unknown[]): unknown =>
+  values.find((value) => value !== undefined && value !== null);
+
+const successfulTransferStatus = (status: unknown): boolean =>
+  status === undefined ||
+  status === null ||
+  status === 0 ||
+  status === '0' ||
+  status === 'SUCCESS' ||
+  status === 'success';
+
+const validTrc20Type = (tokenType: unknown): boolean =>
+  tokenType === undefined ||
+  tokenType === null ||
+  (typeof tokenType === 'string' && tokenType.toLowerCase() === 'trc20');
+
+const validUsdtDecimals = (decimals: unknown): boolean =>
+  decimals === undefined || decimals === null || decimals === USDT_DECIMALS || decimals === '6';
 
 /** Verifies TRONSCAN data independently of browser-provided payment details. */
 export class TronService {
@@ -80,40 +111,100 @@ export class TronService {
       return { ok: false, reason: 'transaction_not_found' };
     if (!isSuccessful(payload)) return { ok: false, reason: 'transaction_failed' };
 
-    const transfer = transferFrom(payload);
-    if (!transfer) return { ok: false, reason: 'missing_transfer' };
+    const transfers = transferCandidates(payload);
+    if (transfers.length === 0) return { ok: false, reason: 'missing_transfer' };
 
-    const tokenInfo = asRecord(transfer.tokenInfo) ?? asRecord(transfer.token_info);
-    const tokenName = firstString(
-      tokenInfo?.tokenAbbr,
-      tokenInfo?.symbol,
-      transfer.tokenName,
-      transfer.token_name
+    // A transaction may contain several transfers. Only a transfer sent to this payment's
+    // configured receiving address can settle it; unrelated transfers must not affect it.
+    const matchingRecipient = transfers.filter(
+      (transfer) => transferRecipient(transfer) === this.env.WALL_RECEIVING_ADDRESS
     );
-    if (tokenName !== 'USDT') return { ok: false, reason: 'wrong_token' };
+    if (matchingRecipient.length === 0) {
+      const hasRecipient = transfers.some((transfer) => transferRecipient(transfer) !== null);
+      return { ok: false, reason: hasRecipient ? 'wrong_recipient' : 'missing_transfer' };
+    }
 
-    const contract = firstString(
-      tokenInfo?.tokenId,
-      tokenInfo?.address,
-      transfer.contract_address,
-      transfer.contractAddress,
-      transfer.token_address
-    );
-    if (contract !== this.env.USDT_CONTRACT_ADDRESS) return { ok: false, reason: 'wrong_contract' };
+    let failure: VerificationFailure = 'missing_transfer';
+    for (const transfer of matchingRecipient) {
+      const tokenInfo = asRecord(transfer.tokenInfo) ?? asRecord(transfer.token_info);
+      const tokenName = firstString(
+        transfer.symbol,
+        transfer.token_symbol,
+        tokenInfo?.tokenAbbr,
+        tokenInfo?.symbol,
+        transfer.tokenName,
+        transfer.token_name
+      );
+      if (tokenName !== 'USDT') {
+        failure = 'wrong_token';
+        continue;
+      }
 
-    const recipient = firstString(transfer.to_address, transfer.toAddress, transfer.to);
-    if (recipient !== this.env.WALL_RECEIVING_ADDRESS)
-      return { ok: false, reason: 'wrong_recipient' };
+      const contract = firstString(
+        transfer.contract_address,
+        transfer.contractAddress,
+        transfer.token_address,
+        tokenInfo?.tokenId,
+        tokenInfo?.address
+      );
+      if (contract !== this.env.USDT_CONTRACT_ADDRESS) {
+        failure = 'wrong_contract';
+        continue;
+      }
 
-    const amount = firstString(transfer.amount_str, transfer.amount, transfer.quant);
-    if (!amount || !/^\d+$/.test(amount)) return { ok: false, reason: 'insufficient_amount' };
-    if (BigInt(amount) < MINIMUM_USDT_BASE_UNITS)
-      return { ok: false, reason: 'insufficient_amount' };
+      const tokenType = optionalValue(
+        transfer.tokenType,
+        transfer.token_type,
+        transfer.tokenType2,
+        tokenInfo?.tokenType,
+        tokenInfo?.token_type
+      );
+      if (!validTrc20Type(tokenType)) {
+        failure = 'missing_transfer';
+        continue;
+      }
 
-    return {
-      ok: true,
-      senderAddress: firstString(transfer.from_address, transfer.fromAddress, transfer.from),
-      amountBaseUnits: amount,
-    };
+      const transferKind = optionalValue(transfer.type, transfer.transfer_type);
+      if (
+        transferKind !== undefined &&
+        transferKind !== null &&
+        (typeof transferKind !== 'string' || transferKind.toLowerCase() !== 'transfer')
+      ) {
+        failure = 'missing_transfer';
+        continue;
+      }
+
+      const decimals = optionalValue(
+        transfer.decimals,
+        transfer.tokenDecimal,
+        transfer.token_decimal,
+        tokenInfo?.tokenDecimal,
+        tokenInfo?.decimals
+      );
+      if (!validUsdtDecimals(decimals)) {
+        failure = 'wrong_token';
+        continue;
+      }
+
+      const status = optionalValue(transfer.status, transfer.transfer_status);
+      if (!successfulTransferStatus(status)) {
+        failure = 'transaction_failed';
+        continue;
+      }
+
+      const amount = firstString(transfer.amount_str, transfer.amount, transfer.quant);
+      if (!amount || !/^\d+$/.test(amount) || BigInt(amount) < MINIMUM_USDT_BASE_UNITS) {
+        failure = 'insufficient_amount';
+        continue;
+      }
+
+      return {
+        ok: true,
+        senderAddress: firstString(transfer.from_address, transfer.fromAddress, transfer.from),
+        amountBaseUnits: amount,
+      };
+    }
+
+    return { ok: false, reason: failure };
   }
 }

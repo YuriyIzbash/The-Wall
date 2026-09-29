@@ -1,20 +1,25 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "REPLACE_WITH_THE_EXISTING_WORKER_NAME",
+  "name": "the-wall-api",
   "main": "worker/src/index.ts",
   "compatibility_date": "2026-09-29",
   "vars": {
     "TRONSCAN_API_URL": "https://apilist.tronscanapi.com/api/transaction-info",
     "WALL_RECEIVING_ADDRESS": "TY8uAhzywQm76gqrg9NsaM6RBhYGuC3dCf",
-    "USDT_CONTRACT_ADDRESS": "REPLACE_WITH_THE_VERIFIED_USDT_TRC20_CONTRACT_ADDRESS",
+    "USDT_CONTRACT_ADDRESS": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
     "PAYMENT_EXPIRATION_MINUTES": "30",
     "FRONTEND_ORIGIN": "https://wall.rest",
   },
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "REPLACE_WITH_THE_EXISTING_D1_DATABASE_NAME",
-      "database_id": "REPLACE_WITH_THE_EXISTING_D1_DATABASE_ID",
+      "database_name": "the-wall-db",
+      "database_id": "7dce815b-8ffa-4bc9-9bea-17751d39242d",
     },
   ],
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"],
+  },
 }

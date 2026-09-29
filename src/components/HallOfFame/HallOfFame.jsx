@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './HallOfFame.scss';
 import { formatDuration } from '../../utils/formatDuration';
-import { API_BASE_URL } from '../../config/api';
+import { apiFetch } from '../../config/api';
 
 function HallOfFame() {
   const [entries, setEntries] = useState([]);
@@ -9,25 +9,19 @@ function HallOfFame() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/graveyard`)
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to fetch graveyard');
-        return res.json();
-      })
+    apiFetch('/hall-of-fame')
       .then((data) => {
         if (!Array.isArray(data)) {
           throw new Error('Invalid data format from server');
         }
 
-        // Calculate survival time in milliseconds
-        const withDuration = data.map((entry) => {
-          const created = new Date(entry.createdAt);
-          const destroyed = new Date(entry.destroyedAt);
-          const durationMs = destroyed - created;
-          return { ...entry, durationMs };
-        });
-        const sorted = withDuration.sort((a, b) => b.durationMs - a.durationMs);
-        setEntries(sorted.slice(0, 10)); // Top 10
+        setEntries(
+          data.slice(0, 10).map((entry) => ({
+            ...entry,
+            showAuthor: !entry.isAnonymous,
+            durationMs: entry.survivalSeconds * 1000,
+          }))
+        );
         setLoading(false);
       })
       .catch((err) => {
@@ -49,12 +43,8 @@ function HallOfFame() {
             <li key={entry.id} className="ranking-item">
               <span className="rank">{index + 1}.</span>
               <span className="message">{entry.message}</span>
-              <span className="author">
-                {entry.showAuthor ? entry.author : 'Anonymous'}
-              </span>
-              <span className="duration">
-                {formatDuration(entry.durationMs)}
-              </span>
+              <span className="author">{entry.showAuthor ? entry.author : 'Anonymous'}</span>
+              <span className="duration">{formatDuration(entry.durationMs)}</span>
             </li>
           ))}
         </ol>

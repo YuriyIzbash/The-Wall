@@ -8,13 +8,14 @@ import HallOfFame from './components/HallOfFame/HallOfFame';
 import MessageOfTheWeek from './components/MessageOfTheWeek/MessageOfTheWeek';
 import InfoModal from './components/InfoModal/InfoModal';
 import { DEFAULT_GRAFFITI_STYLE } from './utils/graffitiStyles';
-import { API_BASE_URL } from './config/api';
+import { apiFetch } from './config/api';
 import { rulesContent, privacyContent, termsContent } from './config/infoContent';
 
 function App() {
   const [wallData, setWallData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [pendingPayment, setPendingPayment] = useState(null);
 
   // Modal states
   const [modals, setModals] = useState({
@@ -33,16 +34,23 @@ function App() {
 
   // Fetch wall on mount
   useEffect(() => {
-    fetch(`${API_BASE_URL}/wall`)
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to fetch wall');
-        return res.json();
-      })
+    apiFetch('/wall')
       .then((data) => {
-        setWallData({
-          ...data,
-          graffitiStyle: data.graffitiStyle || DEFAULT_GRAFFITI_STYLE,
-        });
+        setWallData(
+          data
+            ? {
+                ...data,
+                showAuthor: !data.isAnonymous,
+                graffitiStyle: DEFAULT_GRAFFITI_STYLE,
+              }
+            : {
+                id: 'empty-wall',
+                message: '',
+                author: null,
+                showAuthor: false,
+                graffitiStyle: DEFAULT_GRAFFITI_STYLE,
+              }
+        );
         setLoading(false);
       })
       .catch((err) => {
@@ -52,50 +60,19 @@ function App() {
   }, []);
 
   const handleOverwriteSubmit = async (formData) => {
-    if (!wallData) throw new Error('Wall data is not loaded yet.');
-
-    const oldWall = wallData;
-
-    const graveyardEntry = {
-      id: Date.now(),
-      message: oldWall.message,
-      author: oldWall.author,
-      showAuthor: oldWall.showAuthor,
-      createdAt: oldWall.createdAt,
-      destroyedAt: new Date().toISOString(),
-    };
-
-    const newWall = {
-      id: 1,
-      message: formData.message,
-      author: formData.author,
-      showAuthor: formData.showAuthor,
-      createdAt: new Date().toISOString(),
-      graffitiStyle: formData.style,
-    };
-
-    const [graveyardRes, wallRes] = await Promise.all([
-      fetch(`${API_BASE_URL}/graveyard`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(graveyardEntry),
+    const payment = await apiFetch('/overwrites', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: formData.message,
+        author: formData.author,
+        isAnonymous: !formData.showAuthor,
       }),
-      fetch(`${API_BASE_URL}/wall`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newWall),
-      }),
-    ]);
+    });
 
-    if (!graveyardRes.ok || !wallRes.ok) {
-      throw new Error('Something went wrong. Please try again.');
-    }
-
-    const updatedWall = await wallRes.json();
-    const finalWall = updatedWall.graffitiStyle ? updatedWall : newWall;
-
-    setWallData(finalWall);
-    toggleModal('overwrite');
+    const pending = { ...payment, status: 'pending' };
+    setPendingPayment(pending);
+    return pending;
   };
 
   if (loading) return <div className="loading-screen">Loading Wall...</div>;
@@ -120,6 +97,7 @@ function App() {
         <OverwriteForm
           onSubmit={handleOverwriteSubmit}
           onCancel={() => toggleModal('overwrite')}
+          payment={pendingPayment}
         />
       ),
     },
@@ -161,20 +139,13 @@ function App() {
         />
       </div>
 
-      <button
-        className="overwrite-button"
-        onClick={() => toggleModal('overwrite')}
-      >
+      <button className="overwrite-button" onClick={() => toggleModal('overwrite')}>
         OVERWRITE
       </button>
 
       <nav className="bottom-nav">
         {navItems.map(({ label, key }) => (
-          <button
-            key={key}
-            type="button"
-            onClick={() => toggleModal(key)}
-          >
+          <button key={key} type="button" onClick={() => toggleModal(key)}>
             {label}
           </button>
         ))}
@@ -182,12 +153,7 @@ function App() {
 
       {/* Render all modals */}
       {Object.entries(modalConfigs).map(([key, config]) => (
-        <Modal
-          key={key}
-          isOpen={modals[key]}
-          onClose={() => toggleModal(key)}
-          title={config.title}
-        >
+        <Modal key={key} isOpen={modals[key]} onClose={() => toggleModal(key)} title={config.title}>
           {config.content}
         </Modal>
       ))}
