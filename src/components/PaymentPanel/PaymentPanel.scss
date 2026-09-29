@@ -1,0 +1,120 @@
+@use '../../styles/variables' as *;
+
+.payment-panel {
+  color: #ddd;
+  text-align: center;
+
+  .payment-amount {
+    color: #fff;
+    font-family: 'A Dripping Marker', cursive;
+    font-size: 2.4rem;
+    letter-spacing: 1px;
+    line-height: 1;
+  }
+
+  .payment-network {
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.85rem;
+    margin: 0.55rem 0 1.5rem;
+  }
+
+  .payment-instructions {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    font-size: 0.85rem;
+  }
+
+  .payment-address {
+    color: #fff;
+    font-size: 0.78rem;
+    overflow-wrap: anywhere;
+    user-select: all;
+  }
+
+  .payment-qr {
+    align-self: center;
+    background: #fff;
+    border-radius: 4px;
+    line-height: 0;
+    padding: 0.35rem;
+  }
+
+  .payment-copy {
+    align-self: center;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+    padding: 0.45rem 0.75rem;
+  }
+
+  .payment-state {
+    margin: 1.35rem 0 1rem;
+
+    strong {
+      color: $overwrite-color;
+      font-size: 0.9rem;
+      letter-spacing: 0.7px;
+    }
+
+    p {
+      font-size: 0.85rem;
+      margin: 0.4rem 0 0;
+    }
+  }
+
+  .payment-state--confirmed strong {
+    color: #92d36e;
+  }
+
+  .payment-verify {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    text-align: left;
+
+    label {
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      color: #fff;
+      font: inherit;
+      font-size: 0.8rem;
+      padding: 0.75rem;
+
+      &:focus {
+        border-color: rgba(255, 255, 255, 0.4);
+        outline: none;
+      }
+    }
+
+    .btn-submit {
+      align-self: flex-end;
+      margin-top: 0.3rem;
+    }
+  }
+
+  .payment-id {
+    color: rgba(255, 255, 255, 0.48);
+    font-size: 0.7rem;
+    margin: 1rem 0 0;
+    overflow-wrap: anywhere;
+  }
+}

@@ -1,5 +1,14 @@
 export const API_BASE_URL = '/api';
 
+export class ApiRequestError extends Error {
+  constructor(message, { code, status } = {}) {
+    super(message);
+    this.name = 'ApiRequestError';
+    this.code = code;
+    this.status = status;
+  }
+}
+
 export const apiFetch = async (path, options) => {
   const response = await fetch(`${API_BASE_URL}${path}`, options);
   let payload;
@@ -11,7 +20,13 @@ export const apiFetch = async (path, options) => {
   }
 
   if (!response.ok || payload?.success !== true) {
-    throw new Error(payload?.error?.message || `Request failed with status ${response.status}.`);
+    throw new ApiRequestError(
+      payload?.error?.message || `Request failed with status ${response.status}.`,
+      {
+        code: payload?.error?.code,
+        status: response.status,
+      }
+    );
   }
 
   return payload.data;

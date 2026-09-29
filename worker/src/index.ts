@@ -110,6 +110,11 @@ const failureDetails: Record<
     message: 'The transaction could not be found yet.',
     invalid: false,
   },
+  transaction_unconfirmed: {
+    code: 'transaction_unconfirmed',
+    message: 'The transaction is waiting for confirmation on TRON.',
+    invalid: false,
+  },
   transaction_failed: {
     code: 'transaction_failed',
     message: 'The transaction did not succeed on TRON.',
@@ -136,6 +141,11 @@ const failureDetails: Record<
     message: 'The transfer amount is below 1 USDT.',
     invalid: true,
   },
+  incorrect_amount: {
+    code: 'incorrect_amount',
+    message: 'The transfer amount must be exactly 1 USDT.',
+    invalid: true,
+  },
 };
 
 const markAttempt = async (
@@ -160,6 +170,19 @@ const markAttempt = async (
     )
     .bind(checkedAt, paymentId)
     .run();
+};
+
+const getCurrentPayment = async (db: D1Database, paymentId: string): Promise<PaymentRow | null> => {
+  const payment = await getPayment(db, paymentId);
+  if (!payment || payment.status !== 'pending' || new Date(payment.expires_at).getTime() > Date.now()) {
+    return payment;
+  }
+
+  await db
+    .prepare("UPDATE payments SET status = 'expired' WHERE id = ? AND status = 'pending' AND expires_at <= ?")
+    .bind(paymentId, isoNow())
+    .run();
+  return getPayment(db, paymentId);
 };
 
 const createOverwrite = async (request: Request, env: Env): Promise<Response> => {
@@ -372,7 +395,7 @@ export const createWorker = () => ({
       const paymentMatch = url.pathname.match(/^\/api\/payments\/([^/]+)$/);
       if (request.method === 'GET' && paymentMatch) {
         validatePaymentId(paymentMatch[1]);
-        const payment = await getPayment(env.DB, paymentMatch[1]);
+        const payment = await getCurrentPayment(env.DB, paymentMatch[1]);
         if (!payment) return corsed(failure('payment_not_found', 'Payment not found.', 404));
         return corsed(success(paymentResponse(payment)));
       }

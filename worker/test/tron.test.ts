@@ -53,13 +53,10 @@ describe('TronService transaction-info verification', () => {
     });
   });
 
-  it('accepts a transfer greater than 1 USDT without floating-point conversion', async () => {
+  it('rejects a transfer greater than the exact 1 USDT price without floating-point conversion', async () => {
     await expect(
       verify(transactionInfo([trc20Transfer({ amount_str: '2500001' })]))
-    ).resolves.toMatchObject({
-      ok: true,
-      amountBaseUnits: '2500001',
-    });
+    ).resolves.toEqual({ ok: false, reason: 'incorrect_amount' });
   });
 
   it('rejects a transfer with the wrong recipient', async () => {
@@ -94,6 +91,18 @@ describe('TronService transaction-info verification', () => {
     await expect(
       verify(transactionInfo([trc20Transfer()], { contractRet: 'REVERT', revert: true }))
     ).resolves.toEqual({ ok: false, reason: 'transaction_failed' });
+  });
+
+  it('waits for TRON finality before accepting an otherwise valid transfer', async () => {
+    await expect(
+      verify(transactionInfo([trc20Transfer()], { confirmed: false }))
+    ).resolves.toEqual({ ok: false, reason: 'transaction_unconfirmed' });
+  });
+
+  it('requires the exact 1 USDT amount', async () => {
+    await expect(
+      verify(transactionInfo([trc20Transfer({ amount_str: '1000001' })]))
+    ).resolves.toEqual({ ok: false, reason: 'incorrect_amount' });
   });
 
   it('rejects a successful transaction with no trc20 transfer', async () => {

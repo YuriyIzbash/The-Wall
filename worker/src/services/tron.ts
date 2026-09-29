@@ -5,12 +5,14 @@ export const MINIMUM_USDT_BASE_UNITS = 1_000_000n;
 
 export type VerificationFailure =
   | 'transaction_not_found'
+  | 'transaction_unconfirmed'
   | 'transaction_failed'
   | 'missing_transfer'
   | 'wrong_token'
   | 'wrong_contract'
   | 'wrong_recipient'
-  | 'insufficient_amount';
+  | 'insufficient_amount'
+  | 'incorrect_amount';
 
 export type TronVerification =
   | { ok: true; senderAddress: string | null; amountBaseUnits: string }
@@ -39,6 +41,9 @@ const isSuccessful = (payload: UnknownRecord): boolean => {
   if (returnResult !== null) return returnResult === 'SUCCESS';
   return payload.success === true;
 };
+
+const isConfirmed = (payload: UnknownRecord): boolean =>
+  payload.confirmed === true || payload.confirmed === 'true';
 
 const asRecords = (value: unknown): UnknownRecord[] => {
   if (Array.isArray(value)) {
@@ -109,6 +114,8 @@ export class TronService {
     const payload = asRecord(await response.json().catch(() => null));
     if (!payload || Object.keys(payload).length === 0)
       return { ok: false, reason: 'transaction_not_found' };
+    // A successful execution alone is not enough to publish an overwrite.
+    if (!isConfirmed(payload)) return { ok: false, reason: 'transaction_unconfirmed' };
     if (!isSuccessful(payload)) return { ok: false, reason: 'transaction_failed' };
 
     const transfers = transferCandidates(payload);
@@ -195,6 +202,10 @@ export class TronService {
       const amount = firstString(transfer.amount_str, transfer.amount, transfer.quant);
       if (!amount || !/^\d+$/.test(amount) || BigInt(amount) < MINIMUM_USDT_BASE_UNITS) {
         failure = 'insufficient_amount';
+        continue;
+      }
+      if (BigInt(amount) !== MINIMUM_USDT_BASE_UNITS) {
+        failure = 'incorrect_amount';
         continue;
       }
 

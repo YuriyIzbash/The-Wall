@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import './App.scss';
 import GraffitiMessage from './components/GraffitiMessage/GraffitiMessage';
 import Modal from './components/Modal/Modal';
 import OverwriteForm from './components/OverwriteForm/OverwriteForm';
+import PaymentPanel from './components/PaymentPanel/PaymentPanel';
 import Graveyard from './components/Graveyard/Graveyard';
 import HallOfFame from './components/HallOfFame/HallOfFame';
 import MessageOfTheWeek from './components/MessageOfTheWeek/MessageOfTheWeek';
@@ -10,6 +11,20 @@ import InfoModal from './components/InfoModal/InfoModal';
 import { DEFAULT_GRAFFITI_STYLE } from './utils/graffitiStyles';
 import { apiFetch } from './config/api';
 import { rulesContent, privacyContent, termsContent } from './config/infoContent';
+
+const PENDING_PAYMENT_STORAGE_KEY = 'the-wall:pending-payment';
+const TERMINAL_PAYMENT_STATUSES = new Set(['confirmed', 'invalid', 'expired']);
+
+const paymentIdOf = (payment) => payment?.paymentId ?? payment?.id;
+const normalizePayment = (payment) => ({ ...payment, paymentId: paymentIdOf(payment) });
+
+const savePendingPayment = (payment) => {
+  if (!payment || TERMINAL_PAYMENT_STATUSES.has(payment.status)) {
+    window.localStorage.removeItem(PENDING_PAYMENT_STORAGE_KEY);
+    return;
+  }
+  window.localStorage.setItem(PENDING_PAYMENT_STORAGE_KEY, JSON.stringify(payment));
+};
 
 function App() {
   const [wallData, setWallData] = useState(null);
@@ -32,31 +47,66 @@ function App() {
     setModals((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // Fetch wall on mount
+  const loadWall = useCallback(async () => {
+    try {
+      const data = await apiFetch('/wall');
+      setWallData(
+        data
+          ? {
+              ...data,
+              showAuthor: !data.isAnonymous,
+              graffitiStyle: DEFAULT_GRAFFITI_STYLE,
+            }
+          : {
+              id: 'empty-wall',
+              message: '',
+              author: null,
+              showAuthor: false,
+              graffitiStyle: DEFAULT_GRAFFITI_STYLE,
+            }
+      );
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // Fetch wall on mount.
   useEffect(() => {
-    apiFetch('/wall')
-      .then((data) => {
-        setWallData(
-          data
-            ? {
-                ...data,
-                showAuthor: !data.isAnonymous,
-                graffitiStyle: DEFAULT_GRAFFITI_STYLE,
-              }
-            : {
-                id: 'empty-wall',
-                message: '',
-                author: null,
-                showAuthor: false,
-                graffitiStyle: DEFAULT_GRAFFITI_STYLE,
-              }
-        );
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
+    void loadWall();
+  }, [loadWall]);
+
+  // Pending payments belong to this browser only; the server remains authoritative for status.
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(window.localStorage.getItem(PENDING_PAYMENT_STORAGE_KEY) || 'null');
+      if (stored && typeof paymentIdOf(stored) === 'string') {
+        setPendingPayment(normalizePayment(stored));
+        setModals((current) => ({ ...current, overwrite: true }));
+      }
+    } catch {
+      window.localStorage.removeItem(PENDING_PAYMENT_STORAGE_KEY);
+    }
+  }, []);
+
+  const handlePaymentChange = useCallback((payment) => {
+    const normalized = normalizePayment(payment);
+    setPendingPayment(normalized);
+    savePendingPayment(normalized);
+  }, []);
+
+  const handlePaymentPublished = useCallback(async () => {
+    await loadWall();
+  }, [loadWall]);
+
+  const closeOverwrite = useCallback(() => {
+    setModals((current) => ({ ...current, overwrite: false }));
+    setPendingPayment((payment) => {
+      if (payment && TERMINAL_PAYMENT_STATUSES.has(payment.status)) return null;
+      return payment;
+    });
   }, []);
 
   const handleOverwriteSubmit = async (formData) => {
@@ -70,8 +120,8 @@ function App() {
       }),
     });
 
-    const pending = { ...payment, status: 'pending' };
-    setPendingPayment(pending);
+    const pending = normalizePayment({ ...payment, status: 'pending' });
+    handlePaymentChange(pending);
     return pending;
   };
 
@@ -92,13 +142,16 @@ function App() {
   // Modal configuration
   const modalConfigs = {
     overwrite: {
-      title: 'Create New Graffiti',
-      content: (
-        <OverwriteForm
-          onSubmit={handleOverwriteSubmit}
-          onCancel={() => toggleModal('overwrite')}
+      title: pendingPayment ? 'OVERWRITE THE WALL' : 'Create New Graffiti',
+      content: pendingPayment ? (
+        <PaymentPanel
           payment={pendingPayment}
+          onPaymentChange={handlePaymentChange}
+          onPublished={handlePaymentPublished}
+          onClose={closeOverwrite}
         />
+      ) : (
+        <OverwriteForm onSubmit={handleOverwriteSubmit} onCancel={closeOverwrite} />
       ),
     },
     graveyard: {
@@ -153,7 +206,12 @@ function App() {
 
       {/* Render all modals */}
       {Object.entries(modalConfigs).map(([key, config]) => (
-        <Modal key={key} isOpen={modals[key]} onClose={() => toggleModal(key)} title={config.title}>
+        <Modal
+          key={key}
+          isOpen={modals[key]}
+          onClose={key === 'overwrite' ? closeOverwrite : () => toggleModal(key)}
+          title={config.title}
+        >
           {config.content}
         </Modal>
       ))}

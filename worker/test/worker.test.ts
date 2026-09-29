@@ -164,6 +164,12 @@ class FakeDatabase implements D1Database {
         if (sql.includes("status = 'invalid'")) payment.status = 'invalid';
         if (sql.includes("status = 'expired'")) payment.status = 'expired';
       }
+    } else if (sql.startsWith("UPDATE payments SET status = 'expired' WHERE")) {
+      const [paymentId, checkedAt] = values as [string, string];
+      const payment = this.payments.get(paymentId);
+      if (payment && payment.status === 'pending' && payment.expires_at <= checkedAt) {
+        payment.status = 'expired';
+      }
     }
     return { success: true };
   }
@@ -196,6 +202,7 @@ const createPayment = async () => {
 
 const tronPayload = (overrides: Record<string, unknown> = {}) => ({
   contractRet: 'SUCCESS',
+  confirmed: true,
   tokenTransferInfo: {
     tokenInfo: { tokenAbbr: 'USDT', tokenId: env.USDT_CONTRACT_ADDRESS },
     to_address: env.WALL_RECEIVING_ADDRESS,
@@ -355,6 +362,33 @@ describe('The Wall Worker API', () => {
     });
   });
 
+  it('publishes exactly once after a confirmed 1 USDT TRC-20 transfer', async () => {
+    const paymentId = await createPayment();
+    mockTronscan(tronPayload());
+
+    const confirmation = await request(`/api/payments/${paymentId}/verify`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ transactionHash: validHash }),
+    });
+
+    expect(confirmation.status).toBe(200);
+    expect((await confirmation.json()) as unknown).toMatchObject({
+      success: true,
+      data: { payment: { status: 'confirmed' }, message: { status: 'active' } },
+    });
+
+    const retry = await request(`/api/payments/${paymentId}/verify`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ transactionHash: validHash }),
+    });
+    expect(retry.status).toBe(409);
+    expect((await retry.json()) as unknown).toMatchObject({
+      error: { code: 'payment_not_pending' },
+    });
+  });
+
   it('expires a pending payment before checking the blockchain', async () => {
     const paymentId = await createPayment();
     db.payments.get(paymentId)!.expires_at = '2000-01-01T00:00:00.000Z';
@@ -366,5 +400,13 @@ describe('The Wall Worker API', () => {
     expect((await response.json()) as unknown).toMatchObject({
       error: { code: 'payment_expired' },
     });
+  });
+
+  it('reports an expired payment during status polling', async () => {
+    const paymentId = await createPayment();
+    db.payments.get(paymentId)!.expires_at = '2000-01-01T00:00:00.000Z';
+    const response = await request(`/api/payments/${paymentId}`);
+    expect(response.status).toBe(200);
+    expect((await response.json()) as unknown).toMatchObject({ data: { status: 'expired' } });
   });
 });
