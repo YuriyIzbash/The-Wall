@@ -1,0 +1,12 @@
+# Full TRONSCAN transaction-info endpoint URL.
+TRONSCAN_API_URL=https://apilist.tronscanapi.com/api/transaction-info
+
+# For production use:
+# npx wrangler secret put TRONSCAN_API_KEY
+TRONSCAN_API_KEY=replace-with-your-tronscan-api-key
+
+# Public configuration.
+WALL_RECEIVING_ADDRESS=YOUR_TRON_RECEIVING_ADDRESS
+USDT_CONTRACT_ADDRESS=YOUR_VERIFIED_USDT_TRC20_CONTRACT_ADDRESS
+PAYMENT_EXPIRATION_MINUTES=30
+FRONTEND_ORIGIN=http://localhost:5173

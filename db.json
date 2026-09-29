@@ -1,14 +1,17 @@
 {
   "wall": {
     "id": 1,
-    "message": "The only true wisdom is in knowing you know nothing.",
-    "author": "Socrates",
+    "message": "one two three",
+    "author": "textonic",
     "showAuthor": true,
-    "createdAt": "2026-08-29T14:00:27.887Z",
+    "createdAt": "2026-09-29T10:53:32.567Z",
     "graffitiStyle": {
-      "fontFamily": "MARKER-NO2HUN, cursive",
-      "textColor": "#66ffcc",
-      "gradient": null,
+      "fontFamily": "GraffitiNewDemoRegular, cursive",
+      "textColor": "#ff3399",
+      "gradient": [
+        "#66ccff",
+        "#ff66ff"
+      ],
       "shadow": "4px 4px 12px rgba(0,0,0,0.4), 0 0 10px rgba(0,0,0,0.1)"
     }
   },
@@ -100,6 +103,22 @@
       "showAuthor": true,
       "createdAt": "2026-08-28T14:42:08.535Z",
       "destroyedAt": "2026-08-29T14:00:27.887Z"
+    },
+    {
+      "id": "3BOBFlVVhZ8",
+      "message": "The only true wisdom is in knowing you know nothing.",
+      "author": "Socrates",
+      "showAuthor": true,
+      "createdAt": "2026-08-29T14:00:27.887Z",
+      "destroyedAt": "2026-08-30T14:31:19.489Z"
+    },
+    {
+      "id": "NzOq7yH9jgA",
+      "message": "Thank you CodersLab!",
+      "author": "Yuriy",
+      "showAuthor": true,
+      "createdAt": "2026-08-30T14:31:19.489Z",
+      "destroyedAt": "2026-09-29T10:53:32.567Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
