@@ -1,64 +1,117 @@
-# The Wall
+# THE WALL
 
-A digital contemporary art installation where users can leave temporary graffiti messages on a virtual concrete wall. The project was built as a final project for the Coders Lab React course.
+### A manifesto for digital graffiti.
 
-## Concept
+**The internet has enough feeds. It needs more walls.**
 
-The Wall is an interactive digital art piece. Only one graffiti message exists on the wall at a time. Visitors can overwrite the current message with their own, becoming the next creator. The old message is archived in the **Graveyard** for posterity.
+Everything wants your attention. Every platform wants your identity, your data, your loyalty, your content, your money. Every algorithm wants to decide what you see, what you think, and what deserves to exist.
 
-## Features
+We built another wall.
 
-- Full-screen wall with responsive concrete background
-- Graffiti messages with random fonts and colors
-- Overwrite flow with modal form (message, author, anonymous toggle)
-- Graveyard archive with pagination
-- Hall of Fame (top messages by survival time)
-- Message of the Week (longest survival in the last 7 days)
-- Info modals: Rules, Privacy Policy, Terms of Use
-- Fully responsive design for mobile, tablet, and desktop
+Not a community. Not a platform. Not a personal brand incubator. Not a revolutionary startup with a pitch deck and a delusional valuation.
 
-## Contribution setup
+A wall.
 
-The Wall invites visitors to make a voluntary contribution of 1 USDT or more.
-It does not verify or monitor contributions. Selecting a network and continuing
-publishes the overwrite.
+You come here. You write something. Someone else might erase it. Someone might make it better. Someone might replace it with absolute garbage.
 
-Set these public Worker variables in `wrangler.jsonc` (or the Cloudflare Workers
-dashboard) with the receiving address for each network:
+That's the point.
 
-```text
-PAYMENT_BSC_ADDRESS
-PAYMENT_ETHEREUM_ADDRESS
-PAYMENT_TRON_ADDRESS
-PAYMENT_POLYGON_ADDRESS
-PAYMENT_SOLANA_ADDRESS
-PAYMENT_TON_ADDRESS
-```
+## NO KINGS. NO FOLLOWERS. NO FEED.
 
-For local development, put the same values in `worker/.dev.vars`:
+On social media, your words compete for attention.
 
-```text
-PAYMENT_BSC_ADDRESS=your-bsc-address
-PAYMENT_ETHEREUM_ADDRESS=your-ethereum-address
-PAYMENT_TRON_ADDRESS=your-tron-address
-PAYMENT_POLYGON_ADDRESS=your-polygon-address
-PAYMENT_SOLANA_ADDRESS=your-solana-address
-PAYMENT_TON_ADDRESS=your-ton-address
-```
+Here, they compete for space.
 
-Run the app and Worker in separate terminals:
+On social media, you build an audience.
 
-```sh
-npm run worker:dev
-npm run dev
-```
+Here, you leave a mark.
 
-Deploy with:
+On social media, your content is yours until the algorithm decides otherwise.
 
-```sh
-npm run worker:deploy
-```
+Here, someone can overwrite your message, and the wall moves on.
 
-## Author
+Your masterpiece can disappear. Your joke can outlive you. Your profound statement can be replaced by an idiot writing *hello*.
 
-**Yuriy Izbash**
+This is not a bug. This is the human condition, compressed into a rectangle.
+
+## ART IS NOT A PROPERTY RIGHT
+
+Someone once drew on a cave wall. Someone painted a cathedral. Someone spray-painted a train. Someone hung a blank canvas in a gallery and waited for the money to arrive.
+
+Civilization survived all of it.
+
+Now we have a wall on the internet.
+
+There are no velvet ropes. No curators deciding who gets to speak. No prestigious institutions validating your existence. No followers to impress.
+
+There is only the wall, the message, and the possibility that somebody else will destroy your work.
+
+The art is not just what you write.
+
+The art is what happens to it.
+
+## EVERYTHING IS TEMPORARY. EVEN YOUR EGO.
+
+You can write something beautiful.
+
+You can write something offensive.
+
+You can write something so stupid that future generations will wonder how we acquired electricity.
+
+You can overwrite a stranger. A stranger can overwrite you.
+
+The wall remembers. The wall forgets. The wall keeps the receipts in its graveyard.
+
+Nothing here promises immortality. Nothing guarantees an audience. Nothing says your contribution matters.
+
+And yet, here you are, trying to leave a mark on the internet.
+
+Isn't that what we all do?
+
+## MONEY, ART, AND OTHER ACCIDENTS
+
+Yes, there is money involved.
+
+The internet taught us that everything has a price. Art markets taught us that a price can be mistaken for meaning. Crypto taught us that people will pay extraordinary sums for things nobody fully understands.
+
+The Wall makes no promises about value.
+
+A contribution is not an investment. A message is not an asset. Paying to put words on a wall does not make you an artist.
+
+It just means you paid to put words on a wall.
+
+What happens next is between you, the wall, and whoever comes along after you.
+
+## WE DON'T NEED ANOTHER SOCIAL NETWORK
+
+No account.
+
+No followers.
+
+No likes.
+
+No algorithm deciding whether you deserve to be seen.
+
+No carefully curated identity.
+
+No engagement strategy disguised as human connection.
+
+Just one wall.
+
+Write something. Overwrite something. Watch your masterpiece disappear. Discover something unexpectedly brilliant in the middle of the noise.
+
+Or close the tab and get on with your life.
+
+We are not here to change the world.
+
+We are here to put a wall in front of it.
+
+## THE WALL IS YOURS.
+
+Until it isn't.
+
+[**wall.rest**](https://wall.rest)
+
+*Leave a mark. Lose an argument. Destroy a masterpiece. Become part of the noise.*
+
+**The Wall — an experiment in digital graffiti, impermanence, ownership, and the absurdity of trying to matter on the internet.**
